@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:talktongue_application/models/user.dart';
+//import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
 import 'package:talktongue_application/view/login.dart';
 import 'package:talktongue_application/view/main.dart';

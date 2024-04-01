@@ -6,6 +6,7 @@ import 'package:talktongue_application/message/chat.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/moment/moment.dart';
 import 'package:talktongue_application/shared/EnterExitRoute.dart';
+import 'package:talktongue_application/shared/serverconfig.dart';
 import 'package:talktongue_application/view/splashscreen.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -27,27 +28,34 @@ class _MyDrawerState extends State<MyDrawer> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-           UserAccountsDrawerHeader(
+          UserAccountsDrawerHeader(
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 105, 29, 67),
             ),
-            currentAccountPicture: const CircleAvatar(
-                foregroundImage: AssetImage('assets/images/profile.jpg'),
-                backgroundColor: Colors.blue),
+            currentAccountPicture: CircleAvatar(
+                radius: 30.0,
+                // AssetImage('assets/images/pr.jpeg'),
+
+                backgroundColor: Colors.white,
+                child: ClipOval(
+                  child: Image.network(
+                    "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                  ),
+                )),
             accountName: Text(
               widget.userdata.username.toString(),
               style: const TextStyle(fontSize: 17),
             ),
-            accountEmail:  Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+            accountEmail: const Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                     widget.userdata.username.toString(),
+                    /* Text(
+                      widget.userdata.username.toString(),
                       style: const TextStyle(fontSize: 17),
-                    ),
-                    const Text(
+                    ), */
+                    Text(
                       "",
                       style: TextStyle(fontSize: 20),
                     )
@@ -70,7 +78,8 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>  Moment(userdata: widget.userdata)));
+                              builder: (content) =>
+                                  Moment(userdata: widget.userdata)));
 
                       print(widget.page.toString());
                       if (widget.page.toString() == "books") {
@@ -81,8 +90,8 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:  Moment(userdata: widget.userdata),
-                              enterPage:  Moment(userdata: widget.userdata)));
+                              exitPage: Moment(userdata: widget.userdata),
+                              enterPage: Moment(userdata: widget.userdata)));
                     },
                   ),
                   ListTile(
@@ -103,11 +112,13 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>  Chat(userdata: widget.userdata)));
+                              builder: (content) =>
+                                  Chat(userdata: widget.userdata)));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:  Chat(userdata: widget.userdata), enterPage:  Chat(userdata: widget.userdata)));
+                              exitPage: Chat(userdata: widget.userdata),
+                              enterPage: Chat(userdata: widget.userdata)));
                     },
                   ),
                   ListTile(
@@ -127,12 +138,14 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>  FindFriends(userdata: widget.userdata)));
+                              builder: (content) =>
+                                  FindFriends(userdata: widget.userdata)));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:  FindFriends(userdata: widget.userdata),
-                              enterPage:  FindFriends(userdata: widget.userdata)));
+                              exitPage: FindFriends(userdata: widget.userdata),
+                              enterPage:
+                                  FindFriends(userdata: widget.userdata)));
                     },
                   ),
                   ListTile(
@@ -154,12 +167,15 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>  LearningResources(userdata: widget.userdata)));
+                              builder: (content) => LearningResources(
+                                  userdata: widget.userdata)));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:  LearningResources(userdata: widget.userdata),
-                              enterPage:  LearningResources(userdata: widget.userdata)));
+                              exitPage:
+                                  LearningResources(userdata: widget.userdata),
+                              enterPage: LearningResources(
+                                  userdata: widget.userdata)));
                     },
                   ),
                   const Divider(
@@ -183,12 +199,15 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>  AccountSetting(userdata: widget.userdata)));
+                              builder: (content) =>
+                                  AccountSetting(userdata: widget.userdata)));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:  AccountSetting(userdata: widget.userdata),
-                              enterPage:  AccountSetting(userdata: widget.userdata)));
+                              exitPage:
+                                  AccountSetting(userdata: widget.userdata),
+                              enterPage:
+                                  AccountSetting(userdata: widget.userdata)));
                     },
                   ),
                   /* const SizedBox(

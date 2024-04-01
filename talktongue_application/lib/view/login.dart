@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talktongue_application/message/chat.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -25,6 +26,14 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isChecked = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadpref();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             //Navigator.of(context).pop();
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (content) => Homepage()));
+                context, MaterialPageRoute(builder: (content) => const Homepage()));
           },
         ),
       ),
@@ -120,7 +129,29 @@ class _LoginPageState extends State<LoginPage> {
                     fillColor: Color.lerp(Colors.white10, Colors.white12, 25),
                   ),
                 ),
-                const SizedBox(height: 30),
+                // const SizedBox(height: 30),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _isChecked,
+                      onChanged: (bool? value) {
+                        if (!_formKey.currentState!.validate()) {
+                          return;
+                        }
+                        saveremovepref(value!);
+                        setState(() {
+                          _isChecked = value;
+                        });
+                      },
+                    ),
+                    const Text(
+                      "Remember Me",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
                 Row(
                   children: [
                     const SizedBox(
@@ -214,5 +245,44 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     });
+  }
+
+  void saveremovepref(bool value) async {
+    String email = emailController.text;
+    String password = newPasswordController.text;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (value) {
+      //safe pref
+      await prefs.setString('email', email);
+      await prefs.setString('pass', password);
+      await prefs.setBool('rem', value);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Preferences Stored"),
+        backgroundColor: Colors.green,
+      ));
+    } else {
+      //remove pref
+      await prefs.setString('email', '');
+      await prefs.setString('pass', '');
+      await prefs.setBool('rem', false);
+      emailController.text = '';
+      newPasswordController.text = '';
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Preferences Removed"),
+        backgroundColor: Colors.red,
+      ));
+    }
+  }
+
+  Future<void> loadpref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = (prefs.getString('email')) ?? '';
+    String password = (prefs.getString('pass')) ?? '';
+    _isChecked = (prefs.getBool('rem')) ?? false;
+    if (_isChecked) {
+      emailController.text = email;
+      newPasswordController.text = password;
+    }
+    setState(() {});
   }
 }

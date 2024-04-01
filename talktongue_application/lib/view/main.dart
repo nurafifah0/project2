@@ -38,7 +38,7 @@ class _HomepageState extends State<Homepage> {
       ), */
       body: Center(
           child: Container(
-        padding: const EdgeInsets.all(70),
+        padding: const EdgeInsets.all(50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -54,15 +54,15 @@ class _HomepageState extends State<Homepage> {
               // scale: 1,
             ),
             const SizedBox(
-              height: 150,
+              height: 50,
               //width: 10,
             ),
             Row(
               children: [
                 const SizedBox(
-                  height: 50,
-                  // width: 5,
-                ),
+                    //height: 50,
+                    // width: 5,
+                    ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(context,
