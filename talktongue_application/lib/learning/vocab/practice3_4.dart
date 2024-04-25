@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/splash3.dart';
+import 'package:talktongue_application/learning/vocab/practice3_3.dart';
 import 'package:talktongue_application/models/user.dart';
 
-import 'practice3_9.dart';
+import 'practice3_5.dart';
 
-class Practice3sub10 extends StatefulWidget {
-  const Practice3sub10({super.key, required this.userdata});
+class Practice3sub4 extends StatefulWidget {
+  const Practice3sub4({super.key, required this.userdata});
   final User userdata;
 
   @override
-  State<Practice3sub10> createState() => _Practice3sub10State();
+  State<Practice3sub4> createState() => _Practice3sub4State();
 }
 
-class _Practice3sub10State extends State<Practice3sub10> {
+class _Practice3sub4State extends State<Practice3sub4> {
   late double screenWidth, screenHeight;
   String? gender;
   String answer = "";
@@ -79,7 +79,7 @@ class _Practice3sub10State extends State<Practice3sub10> {
                             height: 20,
                           ),
                           const Text(
-                            "QUESTION 10",
+                            "QUESTION 4",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -90,14 +90,14 @@ class _Practice3sub10State extends State<Practice3sub10> {
                             image: AssetImage("assets/images/room.jpg"),
                           ),
                           const Text(
-                            "Let’s talk about what goes inside Radio widget. Per the regular design norms, a radio button is followed by a label or a text that shows what that option constitutes, hence, after declaring new instance of Radio widget, we need to have a text widget for each radio object so that UI shows a radio button followed by a text, as shown below",
+                            "guiñar meaning",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
                           ),
                           SizedBox(
                             height: 30,
                             child: RadioListTile(
-                              title: const Text("Male"),
+                              title: const Text("to look"),
                               value: "male",
                               groupValue: gender,
                               onChanged: (value) {
@@ -110,7 +110,7 @@ class _Practice3sub10State extends State<Practice3sub10> {
                             ),
                           ),
                           RadioListTile(
-                            title: const Text("feMale"),
+                            title: const Text(" to wink"),
                             value: "female",
                             groupValue: gender,
                             onChanged: (value) {
@@ -174,7 +174,7 @@ class _Practice3sub10State extends State<Practice3sub10> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub9(
+            builder: (content) => Practice3sub3(
                   userdata: widget.userdata,
                 )));
     // const Color.fromARGB(0, 131, 138, 158);
@@ -184,14 +184,14 @@ class _Practice3sub10State extends State<Practice3sub10> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Splash3(
+            builder: (content) => Practice3sub5(
                   userdata: widget.userdata,
                 )));
   }
 
   void _result() {
     // String answer;
-    answer = "the right answer is feMale";
+    answer = "the right answer is to wink";
     const Text('fnjfd');
     print(answer);
     setState(() {});

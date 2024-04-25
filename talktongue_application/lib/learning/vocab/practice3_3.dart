@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/practice3_5.dart';
+import 'package:talktongue_application/learning/vocab/practice3_2.dart';
+
 import 'package:talktongue_application/models/user.dart';
 
-import 'practice3_7.dart';
+import 'practice3_4.dart';
 
-class Practice3sub6 extends StatefulWidget {
-  const Practice3sub6({super.key, required this.userdata});
+class Practice3sub3 extends StatefulWidget {
+  const Practice3sub3({super.key, required this.userdata});
   final User userdata;
 
   @override
-  State<Practice3sub6> createState() => _Practice3sub6State();
+  State<Practice3sub3> createState() => _Practice3sub3State();
 }
 
-class _Practice3sub6State extends State<Practice3sub6> {
+class _Practice3sub3State extends State<Practice3sub3> {
   late double screenWidth, screenHeight;
   String? gender;
   String answer = "";
@@ -79,7 +80,7 @@ class _Practice3sub6State extends State<Practice3sub6> {
                             height: 20,
                           ),
                           const Text(
-                            "QUESTION 6",
+                            "QUESTION 3",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -90,14 +91,14 @@ class _Practice3sub6State extends State<Practice3sub6> {
                             image: AssetImage("assets/images/room.jpg"),
                           ),
                           const Text(
-                            "Let’s talk about what goes inside Radio widget. Per the regular design norms, a radio button is followed by a label or a text that shows what that option constitutes, hence, after declaring new instance of Radio widget, we need to have a text widget for each radio object so that UI shows a radio button followed by a text, as shown below",
+                            "abrir antonyms is",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
                           ),
                           SizedBox(
                             height: 30,
                             child: RadioListTile(
-                              title: const Text("Male"),
+                              title: const Text("Cerrar"),
                               value: "male",
                               groupValue: gender,
                               onChanged: (value) {
@@ -110,7 +111,7 @@ class _Practice3sub6State extends State<Practice3sub6> {
                             ),
                           ),
                           RadioListTile(
-                            title: const Text("feMale"),
+                            title: const Text(" cortar"),
                             value: "female",
                             groupValue: gender,
                             onChanged: (value) {
@@ -129,10 +130,34 @@ class _Practice3sub6State extends State<Practice3sub6> {
                           SizedBox(
                             height: 5,
                           ),
+                          /*  MaterialButton(
+                            onPressed: _result,
+                            color: Colors.grey,
+                            child: const Text("Press ME"),
+                          ),
+                          Text(answer), */
                         ],
                       ),
                     ),
                   ),
+                  /* const Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 75,
+                                ),
+                                Text(
+                                  "LIVING ROOM",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )
+                              ],
+                            )), */
+
+                  //const Text("~Good Luck~ 😊"),
+
                   Row(
                     children: [
                       const SizedBox(
@@ -174,7 +199,7 @@ class _Practice3sub6State extends State<Practice3sub6> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub5(
+            builder: (content) => Practice3sub2(
                   userdata: widget.userdata,
                 )));
     // const Color.fromARGB(0, 131, 138, 158);
@@ -184,14 +209,14 @@ class _Practice3sub6State extends State<Practice3sub6> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub7(
+            builder: (content) => Practice3sub4(
                   userdata: widget.userdata,
                 )));
   }
 
   void _result() {
     // String answer;
-    answer = "the right answer is feMale";
+    answer = "the right answer is Cerrar";
     const Text('fnjfd');
     print(answer);
     setState(() {});

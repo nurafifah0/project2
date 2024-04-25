@@ -17,8 +17,9 @@ import 'package:http/http.dart' as http;
 //void main() => runApp(const AccountSetting());
 
 class AccountSetting extends StatefulWidget {
-  const AccountSetting({super.key, required this.userdata});
+  const AccountSetting({super.key, required this.userdata, required this.user});
   final User userdata;
+  final User user;
 
   @override
   State<AccountSetting> createState() => _AccountSettingState();
@@ -89,7 +90,7 @@ class _AccountSettingState extends State<AccountSetting> {
                       width: screenWidth * 0.8,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              fit: BoxFit.scaleDown,
+                              fit: BoxFit.cover,
                               image: _image == null
                                   ? NetworkImage(
                                       // fit: BoxFit.fill,
@@ -103,15 +104,17 @@ class _AccountSettingState extends State<AccountSetting> {
                     child: Column(
                       children: [
                         Text(
-                          widget.userdata.username.toString(),
-                          style: const TextStyle(fontSize: 24),
+                          widget.userdata.username.toString().toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 24,
+                          ),
                         ),
                         const Divider(
                           color: Color.fromARGB(255, 34, 50, 58),
                         ),
                         Text(
-                          widget.userdata.username.toString(),
-                          style: const TextStyle(fontSize: 24),
+                          widget.userdata.useremail.toString(),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ],
                     ))
@@ -318,6 +321,7 @@ class _AccountSettingState extends State<AccountSetting> {
               MaterialPageRoute(
                   builder: (content) => AccountSetting(
                         userdata: widget.userdata,
+                        user: widget.userdata,
                       )));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

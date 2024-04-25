@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/practice3_7.dart';
+import 'package:talktongue_application/learning/vocab/splash3.dart';
 import 'package:talktongue_application/models/user.dart';
 
 import 'practice3_9.dart';
 
-class Practice3sub8 extends StatefulWidget {
-  const Practice3sub8({super.key, required this.userdata});
+class Practice3sub10 extends StatefulWidget {
+  const Practice3sub10({super.key, required this.userdata});
   final User userdata;
 
   @override
-  State<Practice3sub8> createState() => _Practice3sub8State();
+  State<Practice3sub10> createState() => _Practice3sub10State();
 }
 
-class _Practice3sub8State extends State<Practice3sub8> {
+class _Practice3sub10State extends State<Practice3sub10> {
   late double screenWidth, screenHeight;
   String? gender;
   String answer = "";
@@ -79,7 +79,7 @@ class _Practice3sub8State extends State<Practice3sub8> {
                             height: 20,
                           ),
                           const Text(
-                            "QUESTION 8",
+                            "QUESTION 10",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -174,7 +174,7 @@ class _Practice3sub8State extends State<Practice3sub8> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub7(
+            builder: (content) => Practice3sub9(
                   userdata: widget.userdata,
                 )));
     // const Color.fromARGB(0, 131, 138, 158);
@@ -184,7 +184,7 @@ class _Practice3sub8State extends State<Practice3sub8> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub9(
+            builder: (content) => Splash3(
                   userdata: widget.userdata,
                 )));
   }

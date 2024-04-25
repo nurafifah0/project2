@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/practice3_6.dart';
+import 'package:talktongue_application/learning/vocab/practice3_6.dart';
 import 'package:talktongue_application/models/user.dart';
 
 import 'practice3_8.dart';

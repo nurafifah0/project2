@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/practice3.dart';
+import 'package:talktongue_application/learning/vocab/practice3_8.dart';
 import 'package:talktongue_application/models/user.dart';
 
-import 'practice3_3.dart';
+import 'practice3_10.dart';
 
-class Practice3sub2 extends StatefulWidget {
-  const Practice3sub2({super.key, required this.userdata});
+class Practice3sub9 extends StatefulWidget {
+  const Practice3sub9({super.key, required this.userdata});
   final User userdata;
 
   @override
-  State<Practice3sub2> createState() => _Practice3sub2State();
+  State<Practice3sub9> createState() => _Practice3sub9State();
 }
 
-class _Practice3sub2State extends State<Practice3sub2> {
+class _Practice3sub9State extends State<Practice3sub9> {
   late double screenWidth, screenHeight;
   String? gender;
   String answer = "";
@@ -79,7 +79,7 @@ class _Practice3sub2State extends State<Practice3sub2> {
                             height: 20,
                           ),
                           const Text(
-                            "QUESTION 2",
+                            "QUESTION 9",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -129,34 +129,10 @@ class _Practice3sub2State extends State<Practice3sub2> {
                           SizedBox(
                             height: 5,
                           ),
-                          /*  MaterialButton(
-                            onPressed: _result,
-                            color: Colors.grey,
-                            child: const Text("Press ME"),
-                          ),
-                          Text(answer), */
                         ],
                       ),
                     ),
                   ),
-                  /* const Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 75,
-                                ),
-                                Text(
-                                  "LIVING ROOM",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                )
-                              ],
-                            )), */
-
-                  //const Text("~Good Luck~ 😊"),
-
                   Row(
                     children: [
                       const SizedBox(
@@ -198,7 +174,7 @@ class _Practice3sub2State extends State<Practice3sub2> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3(
+            builder: (content) => Practice3sub8(
                   userdata: widget.userdata,
                 )));
     // const Color.fromARGB(0, 131, 138, 158);
@@ -208,7 +184,7 @@ class _Practice3sub2State extends State<Practice3sub2> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub3(
+            builder: (content) => Practice3sub10(
                   userdata: widget.userdata,
                 )));
   }

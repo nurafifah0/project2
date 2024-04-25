@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/practice3_8.dart';
+import 'package:talktongue_application/learning/vocab/practice3_7.dart';
 import 'package:talktongue_application/models/user.dart';
 
-import 'practice3_10.dart';
+import 'practice3_9.dart';
 
-class Practice3sub9 extends StatefulWidget {
-  const Practice3sub9({super.key, required this.userdata});
+class Practice3sub8 extends StatefulWidget {
+  const Practice3sub8({super.key, required this.userdata});
   final User userdata;
 
   @override
-  State<Practice3sub9> createState() => _Practice3sub9State();
+  State<Practice3sub8> createState() => _Practice3sub8State();
 }
 
-class _Practice3sub9State extends State<Practice3sub9> {
+class _Practice3sub8State extends State<Practice3sub8> {
   late double screenWidth, screenHeight;
   String? gender;
   String answer = "";
@@ -79,7 +79,7 @@ class _Practice3sub9State extends State<Practice3sub9> {
                             height: 20,
                           ),
                           const Text(
-                            "QUESTION 9",
+                            "QUESTION 8",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -174,7 +174,7 @@ class _Practice3sub9State extends State<Practice3sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub8(
+            builder: (content) => Practice3sub7(
                   userdata: widget.userdata,
                 )));
     // const Color.fromARGB(0, 131, 138, 158);
@@ -184,7 +184,7 @@ class _Practice3sub9State extends State<Practice3sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub10(
+            builder: (content) => Practice3sub9(
                   userdata: widget.userdata,
                 )));
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/prac1/practice1.dart';
 import 'package:talktongue_application/learning/prac2/practice2.dart';
-import 'package:talktongue_application/learning/prac3/practice3.dart';
+import 'package:talktongue_application/learning/vocab/practice3.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 
@@ -119,13 +119,13 @@ class _LearningResourcesState extends State<LearningResources> {
                                   height: 75,
                                 ),
                                 Text(
-                                  "SALA DE ESTAR ",
+                                  "GRAMÁTICA 1 ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "LIVING ROOM ",
+                                  "GRAMMAR 1 (BEGINNER) ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15),
@@ -168,18 +168,25 @@ class _LearningResourcesState extends State<LearningResources> {
                                   height: 75,
                                 ),
                                 Text(
-                                  " PATIO DE JUEGOS  ",
+                                  " GRAMÁTICA 2  ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "PLAYGROUND",
+                                  "   GRAMMAR 2  ",
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 15,
                                   ),
                                 ),
+                                Text(
+                                  "  (INTERMEDIATE)",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                  ),
+                                )
                               ],
                             )),
                       ])),
@@ -217,13 +224,13 @@ class _LearningResourcesState extends State<LearningResources> {
                                   height: 75,
                                 ),
                                 Text(
-                                  "LA ESCUELA ",
+                                  "VOCABULARIO ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "THE SCHOOL ",
+                                  "VOCABULARY ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15),

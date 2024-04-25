@@ -138,14 +138,18 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>
-                                  FindFriends(userdata: widget.userdata)));
+                              builder: (content) => FindFriends(
+                                  userdata: widget.userdata,
+                                  user: widget.userdata)));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage: FindFriends(userdata: widget.userdata),
-                              enterPage:
-                                  FindFriends(userdata: widget.userdata)));
+                              exitPage: FindFriends(
+                                  userdata: widget.userdata,
+                                  user: widget.userdata),
+                              enterPage: FindFriends(
+                                  userdata: widget.userdata,
+                                  user: widget.userdata)));
                     },
                   ),
                   ListTile(
@@ -199,15 +203,21 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>
-                                  AccountSetting(userdata: widget.userdata)));
+                              builder: (content) => AccountSetting(
+                                    userdata: widget.userdata,
+                                    user: widget.userdata,
+                                  )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:
-                                  AccountSetting(userdata: widget.userdata),
-                              enterPage:
-                                  AccountSetting(userdata: widget.userdata)));
+                              exitPage: AccountSetting(
+                                userdata: widget.userdata,
+                                user: widget.userdata,
+                              ),
+                              enterPage: AccountSetting(
+                                userdata: widget.userdata,
+                                user: widget.userdata,
+                              )));
                     },
                   ),
                   /* const SizedBox(

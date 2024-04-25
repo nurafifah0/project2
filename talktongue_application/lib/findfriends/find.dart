@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:talktongue_application/accsetting/settingacc.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -11,7 +12,8 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 //void main() => runApp(const FindFriends());
 
 class FindFriends extends StatefulWidget {
-  const FindFriends({super.key, required this.userdata});
+  const FindFriends({super.key, required this.user, required this.userdata});
+  final User user;
   final User userdata;
 
   @override
@@ -58,20 +60,29 @@ class _FindFriendsState extends State<FindFriends> {
           colorSchemeSeed: const Color.fromARGB(197, 233, 179, 207)), */
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Find Friends"),
-        titleTextStyle: const TextStyle(
-            fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        /* leading: BackButton(
+          title: const Text("Find Friends"),
+          titleTextStyle: const TextStyle(
+              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          actionsIconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.notifications),
+              iconSize: 35,
+              onPressed: () {},
+            )
+          ]
+          //static const IconData notifications = IconData(0xe44f, fontFamily: 'MaterialIcons');
+          /* leading: BackButton(
             onPressed: () {
               //Navigator.of(context).pop();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (content) => const Homepage()));
             },
           ), */
-        /* actions: <Widget>[
+          /* actions: <Widget>[
             PopupMenuButton<int>(
               onSelected: (item) => handleClick(item),
               itemBuilder: (context) => [
@@ -80,10 +91,10 @@ class _FindFriendsState extends State<FindFriends> {
               ],
             ),
           ], */
-      ),
+          ),
       drawer: MyDrawer(
         page: "findfriends",
-        userdata: widget.userdata,
+        userdata: widget.user,
       ),
       backgroundColor: const Color.fromARGB(197, 233, 179, 207),
       body: RefreshIndicator(
@@ -97,24 +108,71 @@ class _FindFriendsState extends State<FindFriends> {
                     child: const Text("Accounts"),
                   ),
                   Expanded(
-                      child: ListView.builder(
-                    itemCount: acclist.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          child: Image.network(
-                              "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png"),
-                        ),
-                        //Text("Available ${bookList[index].bookQty} unit"),
-                        title: Text(
-                            truncateString(acclist[index].username.toString())),
-                        //subtitle: Text("${acclist[index].username}"),
-                        onTap: () {
-                          // Handle tapping on the account profile
-                          // For example, navigate to profile details page
-                        },
-                      );
-                    },
+                      child: Container(
+                    alignment: Alignment.center,
+                    width: screenWidth,
+                    padding: const EdgeInsets.all(4.0),
+                    child: ListView.separated(
+                      itemCount: acclist.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return ListTile(
+                          /* leading: CircleAvatar(
+                            child: Image.network(
+                                "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png"),
+                          ), */
+                          //Text("Available ${bookList[index].bookQty} unit"),
+                          /* title: Text(truncateString(
+                              acclist[index].username.toString().toUpperCase())), */
+                          //subtitle: Text("${acclist[index].username}"),
+                          /*   onTap: () {
+                            // Handle tapping on the account profile
+                            // For example, navigate to profile details page
+                          }, */
+
+                          title: InkWell(
+                            onTap: () async {
+                              User user =
+                                  User.fromJson(acclist[index].toJson());
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (content) => AccountSetting(
+                                            user: widget.user,
+                                            userdata: widget.userdata,
+                                          )));
+                              loadAccs(name);
+                            },
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                    radius: 30.0,
+                                    backgroundColor: Colors.white,
+                                    child: ClipOval(
+                                      child: acclist[index].userid != null
+                                          ? Image.network(
+                                              "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                                            )
+                                          : const Placeholder(),
+                                    )),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  truncateString(
+                                      acclist[index].username.toString()),
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                    ),
                   )),
                 ],
               ),
@@ -132,10 +190,12 @@ class _FindFriendsState extends State<FindFriends> {
   } */
 
   void loadAccs(String name) {
+    String userid = "all";
+    String username = "";
     http
         .get(
       Uri.parse(
-          "${ServerConfig.server}/talktongue/php/load_users.php?name=$name"),
+          "${ServerConfig.server}/talktongue/php/load_users.php?userid=$userid&name=$name&username=$username"),
     )
         .then((response) {
       log(response.body);
@@ -147,6 +207,8 @@ class _FindFriendsState extends State<FindFriends> {
           data['data']['users'].forEach((v) {
             acclist.add(User.fromJson(v));
           });
+/*           numofpage = int.parse(data['numofpage'].toString());
+          numofresult = int.parse(data['numberofresult'].toString()); */
         } else {
           //if no status failed
         }

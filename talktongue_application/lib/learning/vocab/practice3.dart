@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/learning/prac3/practice3_3.dart';
+
 import 'package:talktongue_application/models/user.dart';
 
-import 'practice3_5.dart';
+import 'practice3_2.dart';
 
-class Practice3sub4 extends StatefulWidget {
-  const Practice3sub4({super.key, required this.userdata});
+class Practice3 extends StatefulWidget {
+  const Practice3({super.key, required this.userdata});
   final User userdata;
 
   @override
-  State<Practice3sub4> createState() => _Practice3sub4State();
+  State<Practice3> createState() => _Practice3State();
 }
 
-class _Practice3sub4State extends State<Practice3sub4> {
+class _Practice3State extends State<Practice3> {
   late double screenWidth, screenHeight;
   String? gender;
   String answer = "";
@@ -79,7 +79,7 @@ class _Practice3sub4State extends State<Practice3sub4> {
                             height: 20,
                           ),
                           const Text(
-                            "QUESTION 4",
+                            "QUESTION 1",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -90,14 +90,14 @@ class _Practice3sub4State extends State<Practice3sub4> {
                             image: AssetImage("assets/images/room.jpg"),
                           ),
                           const Text(
-                            "Let’s talk about what goes inside Radio widget. Per the regular design norms, a radio button is followed by a label or a text that shows what that option constitutes, hence, after declaring new instance of Radio widget, we need to have a text widget for each radio object so that UI shows a radio button followed by a text, as shown below",
+                            "¡Buen viaje!",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
                           ),
                           SizedBox(
                             height: 30,
                             child: RadioListTile(
-                              title: const Text("Male"),
+                              title: const Text("See you soon!"),
                               value: "male",
                               groupValue: gender,
                               onChanged: (value) {
@@ -110,7 +110,7 @@ class _Practice3sub4State extends State<Practice3sub4> {
                             ),
                           ),
                           RadioListTile(
-                            title: const Text("feMale"),
+                            title: const Text("Have a good trip!"),
                             value: "female",
                             groupValue: gender,
                             onChanged: (value) {
@@ -129,10 +129,34 @@ class _Practice3sub4State extends State<Practice3sub4> {
                           SizedBox(
                             height: 5,
                           ),
+                          /*  MaterialButton(
+                            onPressed: _result,
+                            color: Colors.grey,
+                            child: const Text("Press ME"),
+                          ),
+                          Text(answer), */
                         ],
                       ),
                     ),
                   ),
+                  /* const Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 75,
+                                ),
+                                Text(
+                                  "LIVING ROOM",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )
+                              ],
+                            )), */
+
+                  //const Text("~Good Luck~ 😊"),
+
                   Row(
                     children: [
                       const SizedBox(
@@ -143,7 +167,7 @@ class _Practice3sub4State extends State<Practice3sub4> {
                         onPressed: previousPage,
                         tooltip: 'next page',
                         foregroundColor: Colors.black,
-                        //backgroundColor: Colors.grey,
+                        backgroundColor: Colors.grey,
                         child: const Icon(Icons.navigate_before_sharp),
                       ),
                       const SizedBox(
@@ -165,35 +189,77 @@ class _Practice3sub4State extends State<Practice3sub4> {
             ),
           ),
         ),
+        /*  floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (content) => LearningResources(
+                          userdata: widget.userdata,
+                        )));
+          },
+
+          tooltip: 'next',
+          //heroTag: 'uniqueTag',
+          child: const Icon(Icons.navigate_next),
+        ), 
+          floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (content) => LearningResources(
+                          userdata: widget.userdata,
+                        )));
+          },
+
+          tooltip: 'back',
+          //heroTag: 'uniqueTag',
+          child: const Icon(Icons.navigate_next),
+        ), */
       ),
     );
   }
 
   void previousPage() {
-    //Null;
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (content) => Practice3sub3(
-                  userdata: widget.userdata,
-                )));
-    // const Color.fromARGB(0, 131, 138, 158);
+    Null;
+
+    const Color.fromARGB(0, 131, 138, 158);
   }
 
   void nextPage() {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub5(
+            builder: (content) => Practice3sub2(
                   userdata: widget.userdata,
                 )));
   }
 
   void _result() {
     // String answer;
-    answer = "the right answer is feMale";
+    answer = " have a good trip!";
     const Text('fnjfd');
     print(answer);
     setState(() {});
   }
+
+/* void _card(){
+  showDialog(context: context, builder: (BuildContext context){
+    return StatefulBuilder(
+      builder: ( context, setState) {
+        return AlertDialog(shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.0))),
+            title: const Text(
+              "Select Your Location",
+              style: TextStyle(),
+            ),
+            content: SizedBox(
+              width: screenWidth,
+              child: Column(
+                children: []);
+      },
+    ),
+  })
+} */
 }
