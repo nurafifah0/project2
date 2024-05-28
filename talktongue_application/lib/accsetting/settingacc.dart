@@ -160,20 +160,6 @@ class _AccountSettingState extends State<AccountSetting> {
                     height: 2,
                   ),
                   MaterialButton(
-                    onPressed: () {},
-                    child: const Text("UPDATE PHONE NUMBER"),
-                  ),
-                  const Divider(
-                    height: 2,
-                  ),
-                  MaterialButton(
-                    onPressed: () {},
-                    child: const Text("UPDATE ADDRESS"),
-                  ),
-                  const Divider(
-                    height: 2,
-                  ),
-                  MaterialButton(
                     onPressed: () {
                       Navigator.push(
                           context,

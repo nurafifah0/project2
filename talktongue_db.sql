@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2024 at 06:08 PM
+-- Generation Time: May 28, 2024 at 05:49 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -38,8 +38,21 @@ CREATE TABLE `tbl_chats` (
 --
 
 CREATE TABLE `tbl_moments` (
-  `moment_id` int(11) NOT NULL
+  `post_id` int(11) NOT NULL,
+  `user_id` varchar(11) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `post_deets` varchar(2000) NOT NULL,
+  `post_date` datetime(6) NOT NULL DEFAULT current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_moments`
+--
+
+INSERT INTO `tbl_moments` (`post_id`, `user_id`, `user_name`, `post_deets`, `post_date`) VALUES
+(2, '1', 'nana', 'km', '2024-05-28 18:35:56.309850'),
+(3, '1', 'nana', 'kjhkll', '2024-05-28 18:40:48.966987'),
+(4, '1', 'nana', 'sfsfvdgdgb', '2024-05-28 22:23:26.920506');
 
 -- --------------------------------------------------------
 
@@ -68,6 +81,12 @@ INSERT INTO `tbl_users` (`user_id`, `user_email`, `user_name`, `user_password`, 
 --
 
 --
+-- Indexes for table `tbl_moments`
+--
+ALTER TABLE `tbl_moments`
+  ADD PRIMARY KEY (`post_id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -77,6 +96,12 @@ ALTER TABLE `tbl_users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `tbl_moments`
+--
+ALTER TABLE `tbl_moments`
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

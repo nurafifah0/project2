@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController newPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isChecked = false;
+  bool _passwordVisible = true;
 
   @override
   void initState() {
@@ -114,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                   controller: newPasswordController,
 
                   keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  // obscureText: true,
+                  obscureText: _passwordVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: "e.g As21@364",
@@ -128,6 +130,18 @@ class _LoginPageState extends State<LoginPage> {
                     icon: const Icon(Icons.lock),
                     filled: true,
                     fillColor: Color.lerp(Colors.white10, Colors.white12, 25),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                   ),
                 ),
                 // const SizedBox(height: 30),
