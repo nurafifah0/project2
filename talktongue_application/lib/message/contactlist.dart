@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/message/chat.dart';
 import 'package:talktongue_application/message/group.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 class ContactList extends StatefulWidget {
-  const ContactList({super.key, required this.userdata});
+  const ContactList({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<ContactList> createState() => _ContactListState();
@@ -48,6 +50,7 @@ class _ContactListState extends State<ContactList> {
                     MaterialPageRoute(
                         builder: (content) => Chat(
                               userdata: widget.userdata,
+                              post: widget.post,
                             )));
               },
             ),
@@ -116,6 +119,7 @@ class _ContactListState extends State<ContactList> {
         MaterialPageRoute(
             builder: (content) => GroupChat(
                   userdata: widget.userdata,
+                  post: widget.post,
                 )));
   }
 }

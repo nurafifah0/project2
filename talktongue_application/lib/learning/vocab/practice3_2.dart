@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
 import 'package:talktongue_application/learning/vocab/practice3.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 import 'practice3_3.dart';
 
 class Practice3sub2 extends StatefulWidget {
-  const Practice3sub2({super.key, required this.userdata});
+  const Practice3sub2({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<Practice3sub2> createState() => _Practice3sub2State();
@@ -55,8 +57,7 @@ class _Practice3sub2State extends State<Practice3sub2> {
                   context,
                   MaterialPageRoute(
                       builder: (content) => LearningResources(
-                            userdata: widget.userdata,
-                          )));
+                          userdata: widget.userdata, post: widget.post)));
             },
           ),
         ),
@@ -126,7 +127,7 @@ class _Practice3sub2State extends State<Practice3sub2> {
                           ), */
                           // _result(),
                           Text(answer),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           /*  MaterialButton(
@@ -198,9 +199,8 @@ class _Practice3sub2State extends State<Practice3sub2> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice3(userdata: widget.userdata, post: widget.post)));
     // const Color.fromARGB(0, 131, 138, 158);
   }
 
@@ -208,9 +208,8 @@ class _Practice3sub2State extends State<Practice3sub2> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub3(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice3sub3(userdata: widget.userdata, post: widget.post)));
   }
 
   void _result() {

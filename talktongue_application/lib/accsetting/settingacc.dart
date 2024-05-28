@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -17,9 +18,14 @@ import 'package:http/http.dart' as http;
 //void main() => runApp(const AccountSetting());
 
 class AccountSetting extends StatefulWidget {
-  const AccountSetting({super.key, required this.userdata, required this.user});
+  const AccountSetting(
+      {super.key,
+      required this.userdata,
+      required this.user,
+      required this.post});
   final User userdata;
   final User user;
+  final Post post;
 
   @override
   State<AccountSetting> createState() => _AccountSettingState();
@@ -68,6 +74,7 @@ class _AccountSettingState extends State<AccountSetting> {
         drawer: MyDrawer(
           page: 'setting',
           userdata: widget.userdata,
+          post: widget.post,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: Center(
@@ -322,6 +329,7 @@ class _AccountSettingState extends State<AccountSetting> {
                   builder: (content) => AccountSetting(
                         userdata: widget.userdata,
                         user: widget.userdata,
+                        post: widget.post,
                       )));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

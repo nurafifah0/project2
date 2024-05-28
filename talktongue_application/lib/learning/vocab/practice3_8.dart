@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
 import 'package:talktongue_application/learning/vocab/practice3_7.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 import 'practice3_9.dart';
 
 class Practice3sub8 extends StatefulWidget {
-  const Practice3sub8({super.key, required this.userdata});
+  const Practice3sub8({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<Practice3sub8> createState() => _Practice3sub8State();
@@ -56,6 +58,7 @@ class _Practice3sub8State extends State<Practice3sub8> {
                   MaterialPageRoute(
                       builder: (content) => LearningResources(
                             userdata: widget.userdata,
+                            post: widget.post,
                           )));
             },
           ),
@@ -126,7 +129,7 @@ class _Practice3sub8State extends State<Practice3sub8> {
                           ), */
                           // _result(),
                           Text(answer),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                         ],
@@ -174,9 +177,8 @@ class _Practice3sub8State extends State<Practice3sub8> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub7(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice3sub7(userdata: widget.userdata, post: widget.post)));
     // const Color.fromARGB(0, 131, 138, 158);
   }
 
@@ -186,6 +188,7 @@ class _Practice3sub8State extends State<Practice3sub8> {
         MaterialPageRoute(
             builder: (content) => Practice3sub9(
                   userdata: widget.userdata,
+                  post: widget.post,
                 )));
   }
 

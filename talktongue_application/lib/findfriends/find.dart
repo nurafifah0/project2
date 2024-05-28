@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/accsetting/settingacc.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -12,9 +13,14 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 //void main() => runApp(const FindFriends());
 
 class FindFriends extends StatefulWidget {
-  const FindFriends({super.key, required this.user, required this.userdata});
+  const FindFriends(
+      {super.key,
+      required this.user,
+      required this.userdata,
+      required this.post});
   final User user;
   final User userdata;
+  final Post post;
 
   @override
   State<FindFriends> createState() => _FindFriendsState();
@@ -66,10 +72,10 @@ class _FindFriendsState extends State<FindFriends> {
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
-          actionsIconTheme: IconThemeData(color: Colors.black),
+          actionsIconTheme: const IconThemeData(color: Colors.black),
           actions: [
             IconButton(
-              icon: Icon(Icons.notifications),
+              icon: const Icon(Icons.notifications),
               iconSize: 35,
               onPressed: () {},
             )
@@ -95,6 +101,7 @@ class _FindFriendsState extends State<FindFriends> {
       drawer: MyDrawer(
         page: "findfriends",
         userdata: widget.user,
+        post: widget.post,
       ),
       backgroundColor: const Color.fromARGB(197, 233, 179, 207),
       body: RefreshIndicator(
@@ -139,6 +146,7 @@ class _FindFriendsState extends State<FindFriends> {
                                       builder: (content) => AccountSetting(
                                             user: widget.user,
                                             userdata: widget.userdata,
+                                            post: widget.post,
                                           )));
                               loadAccs(name);
                             },

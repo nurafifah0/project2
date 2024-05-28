@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
 import 'package:talktongue_application/learning/prac2/practice2_8.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 import 'practice2_10.dart';
 
 class Practice2sub9 extends StatefulWidget {
-  const Practice2sub9({super.key, required this.userdata});
+  const Practice2sub9({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<Practice2sub9> createState() => _Practice2sub9State();
@@ -55,8 +57,7 @@ class _Practice2sub9State extends State<Practice2sub9> {
                   context,
                   MaterialPageRoute(
                       builder: (content) => LearningResources(
-                            userdata: widget.userdata,
-                          )));
+                          userdata: widget.userdata, post: widget.post)));
             },
           ),
         ),
@@ -126,7 +127,7 @@ class _Practice2sub9State extends State<Practice2sub9> {
                           ), */
                           // _result(),
                           Text(answer),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                         ],
@@ -174,9 +175,8 @@ class _Practice2sub9State extends State<Practice2sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice2sub8(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice2sub8(userdata: widget.userdata, post: widget.post)));
     // const Color.fromARGB(0, 131, 138, 158);
   }
 
@@ -184,9 +184,8 @@ class _Practice2sub9State extends State<Practice2sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice2sub10(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice2sub10(userdata: widget.userdata, post: widget.post)));
   }
 
   void _result() {

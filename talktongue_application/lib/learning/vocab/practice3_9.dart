@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
 import 'package:talktongue_application/learning/vocab/practice3_8.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 import 'practice3_10.dart';
 
 class Practice3sub9 extends StatefulWidget {
-  const Practice3sub9({super.key, required this.userdata});
+  const Practice3sub9({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<Practice3sub9> createState() => _Practice3sub9State();
@@ -56,6 +58,7 @@ class _Practice3sub9State extends State<Practice3sub9> {
                   MaterialPageRoute(
                       builder: (content) => LearningResources(
                             userdata: widget.userdata,
+                            post: widget.post,
                           )));
             },
           ),
@@ -126,7 +129,7 @@ class _Practice3sub9State extends State<Practice3sub9> {
                           ), */
                           // _result(),
                           Text(answer),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                         ],
@@ -174,9 +177,8 @@ class _Practice3sub9State extends State<Practice3sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice3sub8(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice3sub8(userdata: widget.userdata, post: widget.post)));
     // const Color.fromARGB(0, 131, 138, 158);
   }
 
@@ -186,6 +188,7 @@ class _Practice3sub9State extends State<Practice3sub9> {
         MaterialPageRoute(
             builder: (content) => Practice3sub10(
                   userdata: widget.userdata,
+                  post: widget.post,
                 )));
   }
 

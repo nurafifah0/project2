@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 /* 
@@ -16,8 +17,10 @@ class Splash1 extends StatelessWidget {
 } */
 
 class Splash3 extends StatefulWidget {
-  const Splash3({Key? key, required this.userdata}) : super(key: key);
+  const Splash3({Key? key, required this.userdata, required this.post})
+      : super(key: key);
   final User userdata;
+  final Post post;
 
   @override
   State<Splash3> createState() => _Splash3State();
@@ -32,8 +35,10 @@ class _Splash3State extends State<Splash3> {
       () => Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (content) =>
-                  LearningResources(userdata: widget.userdata))),
+              builder: (content) => LearningResources(
+                    userdata: widget.userdata,
+                    post: widget.post,
+                  ))),
     );
   }
 

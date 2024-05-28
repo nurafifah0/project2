@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/message/contactlist.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 //import 'package:talktongue_application/view/main.dart';
@@ -7,8 +8,9 @@ import 'package:talktongue_application/shared/mydrawer.dart';
 //void main() => runApp(const Chat());
 
 class Chat extends StatefulWidget {
-  const Chat({super.key, required this.userdata});
+  const Chat({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<Chat> createState() => _ChatState();
@@ -54,6 +56,7 @@ class _ChatState extends State<Chat> {
         drawer: MyDrawer(
           page: "chat",
           userdata: widget.userdata,
+          post: widget.post,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: const SingleChildScrollView(
@@ -78,6 +81,7 @@ class _ChatState extends State<Chat> {
                 MaterialPageRoute(
                     builder: (content) => ContactList(
                           userdata: widget.userdata,
+                          post: widget.post,
                         )));
           },
 

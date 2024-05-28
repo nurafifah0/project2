@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/moment/mymoments.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 //import 'package:talktongue_application/view/main.dart';
 
@@ -7,7 +9,8 @@ import 'package:talktongue_application/shared/mydrawer.dart';
 
 class Moment extends StatefulWidget {
   final User userdata;
-  const Moment({super.key, required this.userdata});
+  final Post post;
+  const Moment({super.key, required this.userdata, required this.post});
 
   @override
   State<Moment> createState() => _MomentState();
@@ -40,19 +43,23 @@ class _MomentState extends State<Moment> {
                   MaterialPageRoute(builder: (content) => const Homepage()));
             },
           ), */
-          /* actions: <Widget>[
+          actions: <Widget>[
             PopupMenuButton<int>(
               onSelected: (item) => handleClick(item),
               itemBuilder: (context) => [
-                const PopupMenuItem<int>(value: 0, child: Text('Pin Chat')),
-                const PopupMenuItem<int>(value: 1, child: Text('Delete Chat')),
+                const PopupMenuItem<int>(
+                  value: 0,
+                  //onTap: my_moments,
+                  child: Text('My Moments'),
+                ),
               ],
             ),
-          ], */
+          ],
         ),
         drawer: MyDrawer(
           page: "books",
           userdata: widget.userdata,
+          post: widget.post,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: const SingleChildScrollView(
@@ -75,9 +82,26 @@ class _MomentState extends State<Moment> {
   handleClick(int item) {
     switch (item) {
       case 0:
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (content) => Mymoments(
+                      userdata: widget.userdata,
+                      post: widget.post,
+                    )));
         break;
       case 1:
         break;
     }
   }
+
+  /*  void my_moments() {
+    Navigator.of(context).pop();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (content) => Mymoments(
+                  userdata: widget.userdata,
+                )));
+  } */
 }

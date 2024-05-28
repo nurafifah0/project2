@@ -3,6 +3,7 @@ import 'package:talktongue_application/accsetting/settingacc.dart';
 import 'package:talktongue_application/findfriends/find.dart';
 import 'package:talktongue_application/learning/learn.dart';
 import 'package:talktongue_application/message/chat.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/moment/moment.dart';
 import 'package:talktongue_application/shared/EnterExitRoute.dart';
@@ -12,8 +13,13 @@ import 'package:talktongue_application/view/splashscreen.dart';
 class MyDrawer extends StatefulWidget {
   final String page;
   final User userdata;
+  final Post post;
 
-  const MyDrawer({Key? key, required this.page, required this.userdata})
+  const MyDrawer(
+      {Key? key,
+      required this.page,
+      required this.userdata,
+      required this.post})
       : super(key: key);
 
   @override
@@ -27,7 +33,7 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
-        children: [
+        children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 105, 29, 67),
@@ -78,8 +84,10 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>
-                                  Moment(userdata: widget.userdata)));
+                              builder: (content) => Moment(
+                                    userdata: widget.userdata,
+                                    post: widget.post,
+                                  )));
 
                       print(widget.page.toString());
                       if (widget.page.toString() == "books") {
@@ -90,8 +98,14 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage: Moment(userdata: widget.userdata),
-                              enterPage: Moment(userdata: widget.userdata)));
+                              exitPage: Moment(
+                                userdata: widget.userdata,
+                                post: widget.post,
+                              ),
+                              enterPage: Moment(
+                                userdata: widget.userdata,
+                                post: widget.post,
+                              )));
                     },
                   ),
                   ListTile(
@@ -112,13 +126,21 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) =>
-                                  Chat(userdata: widget.userdata)));
+                              builder: (content) => Chat(
+                                    userdata: widget.userdata,
+                                    post: widget.post,
+                                  )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage: Chat(userdata: widget.userdata),
-                              enterPage: Chat(userdata: widget.userdata)));
+                              exitPage: Chat(
+                                userdata: widget.userdata,
+                                post: widget.post,
+                              ),
+                              enterPage: Chat(
+                                userdata: widget.userdata,
+                                post: widget.post,
+                              )));
                     },
                   ),
                   ListTile(
@@ -139,17 +161,23 @@ class _MyDrawerState extends State<MyDrawer> {
                           context,
                           MaterialPageRoute(
                               builder: (content) => FindFriends(
-                                  userdata: widget.userdata,
-                                  user: widget.userdata)));
+                                    userdata: widget.userdata,
+                                    user: widget.userdata,
+                                    post: widget.post,
+                                  )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
                               exitPage: FindFriends(
-                                  userdata: widget.userdata,
-                                  user: widget.userdata),
+                                userdata: widget.userdata,
+                                user: widget.userdata,
+                                post: widget.post,
+                              ),
                               enterPage: FindFriends(
-                                  userdata: widget.userdata,
-                                  user: widget.userdata)));
+                                userdata: widget.userdata,
+                                user: widget.userdata,
+                                post: widget.post,
+                              )));
                     },
                   ),
                   ListTile(
@@ -172,14 +200,20 @@ class _MyDrawerState extends State<MyDrawer> {
                           context,
                           MaterialPageRoute(
                               builder: (content) => LearningResources(
-                                  userdata: widget.userdata)));
+                                    userdata: widget.userdata,
+                                    post: widget.post,
+                                  )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage:
-                                  LearningResources(userdata: widget.userdata),
+                              exitPage: LearningResources(
+                                userdata: widget.userdata,
+                                post: widget.post,
+                              ),
                               enterPage: LearningResources(
-                                  userdata: widget.userdata)));
+                                userdata: widget.userdata,
+                                post: widget.post,
+                              )));
                     },
                   ),
                   const Divider(
@@ -206,6 +240,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (content) => AccountSetting(
                                     userdata: widget.userdata,
                                     user: widget.userdata,
+                                    post: widget.post,
                                   )));
                       Navigator.push(
                           context,
@@ -213,10 +248,12 @@ class _MyDrawerState extends State<MyDrawer> {
                               exitPage: AccountSetting(
                                 userdata: widget.userdata,
                                 user: widget.userdata,
+                                post: widget.post,
                               ),
                               enterPage: AccountSetting(
                                 userdata: widget.userdata,
                                 user: widget.userdata,
+                                post: widget.post,
                               )));
                     },
                   ),

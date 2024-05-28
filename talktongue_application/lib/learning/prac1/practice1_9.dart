@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/learn.dart';
 import 'package:talktongue_application/learning/prac1/practice1_1.dart';
 import 'package:talktongue_application/learning/prac1/splash1.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 
 class Practice1sub9 extends StatefulWidget {
-  const Practice1sub9({super.key, required this.userdata});
+  const Practice1sub9({super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<Practice1sub9> createState() => _Practice1sub9State();
@@ -54,8 +56,7 @@ class _Practice1sub9State extends State<Practice1sub9> {
                   context,
                   MaterialPageRoute(
                       builder: (content) => LearningResources(
-                            userdata: widget.userdata,
-                          )));
+                          userdata: widget.userdata, post: widget.post)));
             },
           ),
         ),
@@ -125,7 +126,7 @@ class _Practice1sub9State extends State<Practice1sub9> {
                           ), */
                           // _result(),
                           Text(answer),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                         ],
@@ -173,9 +174,8 @@ class _Practice1sub9State extends State<Practice1sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Practice1sub1(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Practice1sub1(userdata: widget.userdata, post: widget.post)));
     // const Color.fromARGB(0, 131, 138, 158);
   }
 
@@ -183,9 +183,8 @@ class _Practice1sub9State extends State<Practice1sub9> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (content) => Splash1(
-                  userdata: widget.userdata,
-                )));
+            builder: (content) =>
+                Splash1(userdata: widget.userdata, post: widget.post)));
   }
 
   void _result() {

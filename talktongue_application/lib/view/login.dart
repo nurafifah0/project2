@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talktongue_application/message/chat.dart';
 import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
 import 'package:talktongue_application/view/forgotpassword.dart';
 import 'package:talktongue_application/view/main.dart';
@@ -51,8 +52,8 @@ class _LoginPageState extends State<LoginPage> {
         leading: BackButton(
           onPressed: () {
             //Navigator.of(context).pop();
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (content) => const Homepage()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (content) => const Homepage()));
           },
         ),
       ),
@@ -227,6 +228,7 @@ class _LoginPageState extends State<LoginPage> {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
           User user = User.fromJson(data['data']);
+          Post post = Post.fromJson(data['data']);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Success"),
             backgroundColor: Colors.green,
@@ -236,6 +238,7 @@ class _LoginPageState extends State<LoginPage> {
               MaterialPageRoute(
                   builder: (content) => Chat(
                         userdata: user,
+                        post: post,
                       )));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

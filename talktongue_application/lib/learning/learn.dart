@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:talktongue_application/learning/prac1/practice1.dart';
 import 'package:talktongue_application/learning/prac2/practice2.dart';
 import 'package:talktongue_application/learning/vocab/practice3.dart';
+import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 
 //void main() => runApp(const AccountSetting());
 
 class LearningResources extends StatefulWidget {
-  const LearningResources({super.key, required this.userdata});
+  const LearningResources(
+      {super.key, required this.userdata, required this.post});
   final User userdata;
+  final Post post;
 
   @override
   State<LearningResources> createState() => _LearningResourcesState();
@@ -58,6 +61,7 @@ class _LearningResourcesState extends State<LearningResources> {
         drawer: MyDrawer(
           page: "learning",
           userdata: widget.userdata,
+          post: widget.post,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: SingleChildScrollView(
@@ -74,8 +78,9 @@ class _LearningResourcesState extends State<LearningResources> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (content) =>
-                                    Practice1(userdata: widget.userdata)));
+                                builder: (content) => Practice1(
+                                    userdata: widget.userdata,
+                                    post: widget.post)));
                       },
                       child: Card(
                           child: Row(children: [
@@ -143,8 +148,9 @@ class _LearningResourcesState extends State<LearningResources> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (content) =>
-                                    Practice2(userdata: widget.userdata)));
+                                builder: (content) => Practice2(
+                                    userdata: widget.userdata,
+                                    post: widget.post)));
                       },
                       child: Card(
                           child: Row(children: [
@@ -200,8 +206,9 @@ class _LearningResourcesState extends State<LearningResources> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (content) =>
-                                    Practice3(userdata: widget.userdata)));
+                                builder: (content) => Practice3(
+                                    userdata: widget.userdata,
+                                    post: widget.post)));
                       },
                       child: Card(
                           child: Row(children: [
