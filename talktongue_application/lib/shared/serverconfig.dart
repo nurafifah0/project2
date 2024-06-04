@@ -1,4 +1,4 @@
 class ServerConfig {
-  static const String server = "http://10.19.45.202";
+  static const String server = "http://10.19.63.242";
   //"http://10.19.82.133";
 }

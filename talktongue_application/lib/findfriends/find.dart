@@ -158,7 +158,7 @@ class _FindFriendsState extends State<FindFriends> {
                                     child: ClipOval(
                                       child: acclist[index].userid != null
                                           ? Image.network(
-                                              "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                                              "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png",
                                             )
                                           : const Placeholder(),
                                     )),

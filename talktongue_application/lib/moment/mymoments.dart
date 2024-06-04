@@ -26,12 +26,13 @@ class _MymomentsState extends State<Mymoments> {
   late double screenWidth, screenHeight;
   File? _image;
   //var pathAsset = "assets/images/profile.png";
-  final df = DateFormat('dd/MM/yyyy');
-  var val = 50;
+  final df = DateFormat('hh:mm a   dd/MM/yyyy');
+  //var val = 50;
   bool isDisable = false;
   Random random = Random();
   final _formKey = GlobalKey<FormState>();
   List<Post> postList = <Post>[];
+  //List<User> userlist = <User>[];
   int numofpage = 1;
   int curpage = 1;
   int numofresult = 0;
@@ -44,11 +45,13 @@ class _MymomentsState extends State<Mymoments> {
   TextEditingController postController = TextEditingController();
   String deets = "";
 
+  get onSelected => null;
+
   @override
   void initState() {
     super.initState();
     loadPost(deets);
-    if (widget.userdata.userid == "0") {
+    if (widget.userdata.userid == widget.post.userId) {
       isDisable = true;
     } else {
       isDisable = false;
@@ -155,8 +158,9 @@ class _MymomentsState extends State<Mymoments> {
                       ),
                       TextFormField(
                         // textAlign: TextAlign.center,
+                        onFieldSubmitted: (v) {},
                         controller: postController,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             labelText: "New post (what's new )",
                             hintText: "e.g Hi Good Morning",
@@ -189,37 +193,77 @@ class _MymomentsState extends State<Mymoments> {
                       ),
                       SizedBox(
                         height: screenHeight * 0.28,
-                        child: /* postList.isEmpty
+                        child: postList.isEmpty
                             ? const Center(child: Text("No post available"))
-                            : */
-                            ListView.separated(
-                          itemCount: postList.length,
-                          //scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(widget.userdata.username.toString()),
-                              subtitle: Text(truncateString(
-                                  postList[index].postDeets.toString())),
-                              /* trailing: //const Icon(Icons.access_time_filled_outlined),
-                                  Text(df.format(DateTime.parse(
-                                      widget.post.postDate.toString()))), */
-                              onTap: () async {
-                                Post post =
-                                    Post.fromJson(postList[index].toJson());
-                              },
-                            );
-
-                            /* return ListTile(
-                                    title: Text(truncateString(
-                                        postList[index].postDeets.toString())), */
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                                /* thickness: 2,
+                            : ListView.separated(
+                                itemCount: postList.length,
+                                itemBuilder: (context, index) {
+                                  //if (widget.post.userId ==widget.userdata.userid) {
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                        radius: 30.0,
+                                        backgroundColor: Colors.white,
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                                          ),
+                                        )),
+                                    title: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(truncateString(postList[index]
+                                            .username
+                                            .toString())),
+                                        Text(
+                                          df.format(DateTime.parse(
+                                              postList[index]
+                                                  .postDate
+                                                  .toString())),
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black38),
+                                        )
+                                      ],
+                                    ),
+                                    subtitle: Text(truncateString(
+                                        postList[index].postDeets.toString())),
+                                    trailing: //const Icon(Icons.access_time_filled_outlined),
+                                        Wrap(
+                                      spacing: -16,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: _edit,
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.redAccent,
+                                          ),
+                                          onPressed: _delete,
+                                        ),
+                                      ],
+                                    ),
+                                    isThreeLine: true,
+                                    //dense: true,
+                                    onTap: () async {
+                                      Post post = Post.fromJson(
+                                          postList[index].toJson());
+                                    },
+                                  );
+                                  //}
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return const Divider(
+                                      /* thickness: 2,
                               height: 20, */
-                                );
-                          },
-                        ),
+                                      );
+                                },
+                              ),
                       ),
                       SizedBox(
                         height: screenHeight * 0.05,
@@ -297,10 +341,14 @@ class _MymomentsState extends State<Mymoments> {
 
   void loadPost(String deets) {
     //String userid = "all";
+    // String userid = widget.userdata.userid.toString();
+    String username = widget.post.username.toString();
+    //userid=$userid&
+
     http
         .get(
       Uri.parse(
-          "${ServerConfig.server}/talktongue/php/load_moments.php?deets=$deets&pageno=$curpage"),
+          "${ServerConfig.server}/talktongue/php/load_mymoments.php?username=$username&deets=$deets&pageno=$curpage"),
     )
         .then((response) {
       if (response.statusCode == 200) {
@@ -331,4 +379,39 @@ class _MymomentsState extends State<Mymoments> {
       return str;
     }
   }
+
+  void _delete() {
+    http.post(
+        Uri.parse("${ServerConfig.server}/talktongue/php/delete_moment.php"),
+        body: {
+          "userid": widget.userdata.userid.toString(),
+          "postid": widget.post.postId.toString(),
+        }).then((response) {
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == "success") {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Delete Success"),
+            backgroundColor: Colors.green,
+          ));
+          Navigator.of(context).pop();
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (content) => Mymoments(
+                        userdata: widget.userdata,
+                        post: widget.post,
+                      )));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Delete Failed"),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
+    });
+  }
+
+  void _edit() {}
 }
