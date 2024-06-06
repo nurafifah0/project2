@@ -44,9 +44,14 @@ class _MyDrawerState extends State<MyDrawer> {
 
                 backgroundColor: Colors.white,
                 child: ClipOval(
-                  child: Image.network(
-                    "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
-                  ),
+                  child: widget.userdata.userid != null
+                      ? Image.network(
+                          "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(Icons.error);
+                          },
+                        )
+                      : Icon(Icons.error),
                 )),
             accountName: Text(
               widget.userdata.username.toString(),
@@ -161,21 +166,21 @@ class _MyDrawerState extends State<MyDrawer> {
                           context,
                           MaterialPageRoute(
                               builder: (content) => FindFriends(
+                                    //userdata: widget.userdata,
                                     userdata: widget.userdata,
-                                    user: widget.userdata,
                                     post: widget.post,
                                   )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
                               exitPage: FindFriends(
+                                // userdata: widget.userdata,
                                 userdata: widget.userdata,
-                                user: widget.userdata,
                                 post: widget.post,
                               ),
                               enterPage: FindFriends(
+                                // userdata: widget.userdata,
                                 userdata: widget.userdata,
-                                user: widget.userdata,
                                 post: widget.post,
                               )));
                     },

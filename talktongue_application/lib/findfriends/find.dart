@@ -1,9 +1,11 @@
 import 'dart:convert';
-//import 'dart:math';
-import 'dart:developer';
+
+import 'dart:math';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:talktongue_application/accsetting/settingacc.dart';
+import 'package:talktongue_application/findfriends/accprofile.dart';
+
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
@@ -13,12 +15,7 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 //void main() => runApp(const FindFriends());
 
 class FindFriends extends StatefulWidget {
-  const FindFriends(
-      {super.key,
-      required this.user,
-      required this.userdata,
-      required this.post});
-  final User user;
+  const FindFriends({super.key, required this.userdata, required this.post});
   final User userdata;
   final Post post;
 
@@ -30,14 +27,25 @@ class _FindFriendsState extends State<FindFriends> {
   List<User> acclist = <User>[];
   late double screenWidth, screenHeight;
 
+  //var val = 50;
+  bool isDisable = false;
+  Random random = Random();
+  final _formKey = GlobalKey<FormState>();
+
+  int numofpage = 1;
+  int curpage = 1;
+  int numofresult = 0;
+  var color;
+
   bool clickedCentreFAB = false;
   get floatingActionButton => null;
-  String name = "";
+  String username = "";
+  TextEditingController searchctlr = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    loadAccs(name);
+    loadAccs(username);
     /*  loadBooks(
       "all",
     ); */
@@ -45,7 +53,7 @@ class _FindFriendsState extends State<FindFriends> {
 
   Future<void> _refresh() async {
     // Handle your refresh logic here
-    loadAccs(name);
+    loadAccs(username);
   }
 
   int axiscount = 2;
@@ -100,7 +108,7 @@ class _FindFriendsState extends State<FindFriends> {
           ),
       drawer: MyDrawer(
         page: "findfriends",
-        userdata: widget.user,
+        userdata: widget.userdata,
         post: widget.post,
       ),
       backgroundColor: const Color.fromARGB(197, 233, 179, 207),
@@ -110,78 +118,148 @@ class _FindFriendsState extends State<FindFriends> {
             ? const Center(child: Text("No Data"))
             : Column(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: const Text("Accounts"),
+                  SizedBox(
+                    height: 49,
+                    width: 300,
+                    child: TextFormField(
+                      // textAlign: TextAlign.center,
+
+                      onFieldSubmitted: (v) {},
+                      controller: searchctlr,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        labelText: "Search",
+                        hintText: "e.g John",
+                        labelStyle:
+                            const TextStyle(color: Colors.black, fontSize: 20),
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.purple),
+                        // prefixText: '\$: ',
+                        //icon: Icon(Icons.cancel,color: _username.text.isNotEmpty ? Colors.grey : Colors.transparent )
+                        hintStyle: const TextStyle(
+                          color: Colors.brown,
+                          fontSize: 18,
+                        ),
+                        suffixIcon: IconButton.filled(
+                          icon: Icon(Icons.search_outlined,
+                              color: searchctlr.text.isNotEmpty
+                                  ? Colors.blueGrey
+                                  : Colors.black),
+                          onPressed: //_search,
+                              () {
+                            TextEditingController searchctlr =
+                                TextEditingController();
+                            username = searchctlr.text;
+
+                            loadAccs(searchctlr.text);
+                            Navigator.of(context).pop();
+                            /* Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (content) => FindFriends(
+                                          userdata: widget.userdata,
+                                          post: widget.post,
+                                        ))); */
+                          },
+                          // iconSize: 20,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0)),
+                        //contentPadding: EdgeInsets.symmetric(vertical: 40.0),
+                      ),
+                    ),
                   ),
-                  Expanded(
-                      child: Container(
-                    alignment: Alignment.center,
-                    width: screenWidth,
-                    padding: const EdgeInsets.all(4.0),
+                  const SizedBox(
+                    height: 5,
+                    width: 50,
+                  ),
+                  Container(
+                    height: screenHeight * 0.8,
                     child: ListView.separated(
                       itemCount: acclist.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return ListTile(
-                          /* leading: CircleAvatar(
-                            child: Image.network(
-                                "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png"),
-                          ), */
-                          //Text("Available ${bookList[index].bookQty} unit"),
-                          /* title: Text(truncateString(
-                              acclist[index].username.toString().toUpperCase())), */
-                          //subtitle: Text("${acclist[index].username}"),
-                          /*   onTap: () {
-                            // Handle tapping on the account profile
-                            // For example, navigate to profile details page
-                          }, */
+                      itemBuilder: (context, index) {
+                        /*  if (index >= userlist.length) {
+                              return const SizedBox.shrink();
+                            } */
+                        return ConstrainedBox(
+                          constraints:
+                              BoxConstraints(maxWidth: screenWidth * 0.5),
+                          child: SizedBox(
+                            width: screenWidth * 0.5,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundColor: Colors.white,
+                                  child: ClipOval(
+                                    child: acclist[index].userid != null
+                                        ? Image.network(
+                                            "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png",
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Icon(Icons.error);
+                                            },
+                                          )
+                                        : Icon(Icons.error),
+                                  )),
+                              title: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  /* Text(truncateString(
+                                          userlist[index].username.toString())), */
+                                  Text(truncateString(
+                                      acclist[index].username.toString())),
+                                ],
+                              ),
+                              onTap: () async {
+                                User userdata =
+                                    User.fromJson(acclist[index].toJson());
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (content) => AccProfile(
+                                              userdata: widget.userdata,
+                                              //post: widget.post,
 
-                          title: InkWell(
-                            onTap: () async {
-                              User user =
-                                  User.fromJson(acclist[index].toJson());
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (content) => AccountSetting(
-                                            user: widget.user,
-                                            userdata: widget.userdata,
-                                            post: widget.post,
-                                          )));
-                              loadAccs(name);
-                            },
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                    radius: 30.0,
-                                    backgroundColor: Colors.white,
-                                    child: ClipOval(
-                                      child: acclist[index].userid != null
-                                          ? Image.network(
-                                              "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png",
-                                            )
-                                          : const Placeholder(),
-                                    )),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  truncateString(
-                                      acclist[index].username.toString()),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                )
-                              ],
+                                              //userdata: widget.userdata,
+                                            )));
+                                loadAccs(username);
+                              },
                             ),
                           ),
                         );
                       },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider();
+                      },
                     ),
-                  )),
+                  ),
+                  /* SizedBox(
+              height: screenHeight * 1,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: numofpage,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  //build the list for textbutton with scroll
+                  if ((curpage - 1) == index) {
+                    //set current page number active
+                    color = Colors.red;
+                  } else {
+                    color = Colors.black;
+                  }
+                  return TextButton(
+                      onPressed: () {
+                        curpage = index + 1;
+                        loadAccs(username);
+                      },
+                      child: Text(
+                        (index + 1).toString(),
+                        style: TextStyle(color: color, fontSize: 18),
+                      ));
+                },
+              ),
+            ), */
                 ],
               ),
       ),
@@ -197,28 +275,30 @@ class _FindFriendsState extends State<FindFriends> {
     }
   } */
 
-  void loadAccs(String name) {
-    String userid = "all";
-    String username = "";
+  void loadAccs(String username) {
+    //String userid = "all";
+    //String userid = widget.user.userid.toString();
+    // String username = widget.user.username.toString();
     http
         .get(
       Uri.parse(
-          "${ServerConfig.server}/talktongue/php/load_users.php?userid=$userid&name=$name&username=$username"),
+          "${ServerConfig.server}/talktongue/php/load_users.php?username=$username&pageno=$curpage"),
     )
         .then((response) {
-      log(response.body);
       if (response.statusCode == 200) {
-        log(response.body);
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
           acclist.clear();
-          data['data']['users'].forEach((v) {
-            acclist.add(User.fromJson(v));
-          });
-/*           numofpage = int.parse(data['numofpage'].toString());
-          numofresult = int.parse(data['numberofresult'].toString()); */
+          if (data['data']['users'] != null) {
+            data['data']['users'].forEach((v) {
+              acclist.add(User.fromJson(v));
+            });
+          }
+          /*  numofpage = data['numofpage'];
+          numofresult = data['numberofresult']; */
         } else {
           //if no status failed
+          acclist.clear();
         }
       }
       setState(() {});
@@ -232,5 +312,40 @@ class _FindFriendsState extends State<FindFriends> {
     } else {
       return str;
     }
+  }
+
+  void _search() {
+    TextEditingController searchctlr = TextEditingController();
+    username = searchctlr.text;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+            title: const Text(
+              "Search ",
+              style: TextStyle(),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: searchctlr,
+                ),
+                MaterialButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    loadAccs(searchctlr.text);
+                  },
+                  child: const Text("Search"),
+                )
+              ],
+            ));
+      },
+    );
+    /*  username = searchctlr.text;
+    Navigator.of(context).pop();
+    loadAccs(searchctlr.text); */
   }
 }
