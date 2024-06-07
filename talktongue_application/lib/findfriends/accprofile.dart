@@ -72,26 +72,43 @@ class _AccProfileState extends State<AccProfile> {
               padding: const EdgeInsets.all(0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 40,
                   ),
                   CircleAvatar(
-                      radius: 30.0,
+                      radius: 100.0,
                       // AssetImage('assets/images/pr.jpeg'),
 
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(197, 233, 179, 207),
                       child: ClipOval(
-                        child: widget.user.userid != null
-                            ? Image.network(
-                                "${ServerConfig.server}/talktongue/assets/profile/${widget.user.userid}.png",
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Icon(Icons.error);
-                                },
-                              )
-                            : Icon(Icons.error),
-                      ))
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(99),
+                          child: widget.user.userid != null
+                              ? SizedBox(
+                                  child: Image.network(
+                                    "${ServerConfig.server}/talktongue/assets/profile/${widget.user.userid}.png",
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Icon(Icons.error);
+                                    },
+                                  ),
+                                )
+                              : Icon(Icons.error),
+                        ),
+                      )),
+                  /*  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage("assets/images/room.jpg"),
+                      ),
+                    ),
+                  ), */
                 ],
               ),
             ),
