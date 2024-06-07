@@ -38,7 +38,7 @@ class _MyDrawerState extends State<MyDrawer> {
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 105, 29, 67),
             ),
-            currentAccountPicture: CircleAvatar(
+            currentAccountPicture: /* CircleAvatar(
                 radius: 30.0,
                 // AssetImage('assets/images/pr.jpeg'),
 
@@ -52,7 +52,28 @@ class _MyDrawerState extends State<MyDrawer> {
                           },
                         )
                       : Icon(Icons.error),
-                )),
+                )), */
+                Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: widget.userdata.userid != null
+                      ? NetworkImage(
+                          "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                        )
+                      : const Icon(Icons.error) as ImageProvider,
+                  /* : const AssetImage(
+                                            "assets/images/profile.jpg")
+                                        as ImageProvider, */
+                  fit: BoxFit.cover,
+                  onError: (error, stackTrace) {
+                    print("Error loading image: $error");
+                  },
+                ),
+              ),
+            ),
             accountName: Text(
               widget.userdata.username.toString(),
               style: const TextStyle(fontSize: 17),

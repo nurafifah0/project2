@@ -77,7 +77,7 @@ class _AccProfileState extends State<AccProfile> {
                   SizedBox(
                     height: 40,
                   ),
-                  CircleAvatar(
+                  /*  CircleAvatar(
                       radius: 100.0,
                       // AssetImage('assets/images/pr.jpeg'),
 
@@ -96,7 +96,7 @@ class _AccProfileState extends State<AccProfile> {
                                 )
                               : Icon(Icons.error),
                         ),
-                      )),
+                      )), */
                   /*  Container(
                     width: 150,
                     height: 150,
@@ -109,6 +109,26 @@ class _AccProfileState extends State<AccProfile> {
                       ),
                     ),
                   ), */
+
+                  Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: widget.user.userid != null
+                            ? NetworkImage(
+                                "${ServerConfig.server}/talktongue/assets/profile/${widget.user.userid}.png",
+                              )
+                            : const AssetImage('assets/images/default.png')
+                                as ImageProvider,
+                        fit: BoxFit.cover,
+                        onError: (error, stackTrace) {
+                          print("Error loading image: $error");
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

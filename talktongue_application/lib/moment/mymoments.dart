@@ -128,14 +128,34 @@ class _MymomentsState extends State<Mymoments> {
                           const SizedBox(
                             width: 10,
                           ),
-                          CircleAvatar(
+                          /* CircleAvatar(
                               radius: 30.0,
                               backgroundColor: Colors.white,
                               child: ClipOval(
                                 child: Image.network(
                                   "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
                                 ),
-                              )),
+                              )), */
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: widget.userdata.userid != null
+                                    ? NetworkImage(
+                                        "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                                      )
+                                    : const AssetImage(
+                                            "assets/images/profile.jpg")
+                                        as ImageProvider,
+                                fit: BoxFit.cover,
+                                onError: (error, stackTrace) {
+                                  print("Error loading image: $error");
+                                },
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -147,14 +167,17 @@ class _MymomentsState extends State<Mymoments> {
                         child: Text(
                           widget.userdata.username
                               .toString()
-                              .toString()
-                              .padLeft(7),
+                              .toUpperCase()
+                              .padLeft(10),
                           style: const TextStyle(
                             fontSize: 24,
                           ),
                           textAlign: TextAlign.values.first,
                           //textAlign: TextAlign.end
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       TextFormField(
                         // textAlign: TextAlign.center,
@@ -200,14 +223,34 @@ class _MymomentsState extends State<Mymoments> {
                                 itemBuilder: (context, index) {
                                   //if (widget.post.userId ==widget.userdata.userid) {
                                   return ListTile(
-                                    leading: CircleAvatar(
+                                    leading: /* CircleAvatar(
                                         radius: 30.0,
                                         backgroundColor: Colors.white,
                                         child: ClipOval(
                                           child: Image.network(
                                             "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
                                           ),
-                                        )),
+                                        )), */
+                                        Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: widget.userdata.userid != null
+                                              ? NetworkImage(
+                                                  "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                                                )
+                                              : const Icon(Icons.error)
+                                                  as ImageProvider,
+                                          fit: BoxFit.cover,
+                                          onError: (error, stackTrace) {
+                                            print(
+                                                "Error loading image: $error");
+                                          },
+                                        ),
+                                      ),
+                                    ),
                                     title: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,

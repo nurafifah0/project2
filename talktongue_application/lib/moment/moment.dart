@@ -135,15 +135,34 @@ class _MomentState extends State<Moment> {
                               child: SizedBox(
                                 width: screenWidth * 0.8,
                                 child: ListTile(
-                                  leading: CircleAvatar(
+                                  leading: /* CircleAvatar(
                                       radius: 30.0,
                                       backgroundColor: Colors.white,
                                       child: ClipOval(
                                         child: Image.network(
                                           "${ServerConfig.server}/talktongue/assets/profile/${postList[index].userId}.png",
-                                          // "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                                         
                                         ),
-                                      )),
+                                      )), */
+                                      Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: postList[index].userId != null
+                                            ? NetworkImage(
+                                                "${ServerConfig.server}/talktongue/assets/profile/${postList[index].userId}.png",
+                                              )
+                                            : const Icon(Icons.error)
+                                                as ImageProvider,
+                                        fit: BoxFit.cover,
+                                        onError: (error, stackTrace) {
+                                          print("Error loading image: $error");
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                   title: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:

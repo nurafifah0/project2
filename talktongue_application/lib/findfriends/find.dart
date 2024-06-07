@@ -184,49 +184,66 @@ class _FindFriendsState extends State<FindFriends> {
                         return ConstrainedBox(
                           constraints:
                               BoxConstraints(maxWidth: screenWidth * 0.5),
-                          child: SizedBox(
-                            width: screenWidth * 0.5,
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundColor: Colors.white,
-                                  child: ClipOval(
-                                    child: acclist[index].userid != null
-                                        ? Image.network(
-                                            "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png",
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Icon(Icons.error);
-                                            },
-                                          )
-                                        : Icon(Icons.error),
-                                  )),
-                              title: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  /* Text(truncateString(
-                                          userlist[index].username.toString())), */
-                                  Text(truncateString(
-                                      acclist[index].username.toString())),
-                                ],
+                          child: ListTile(
+                            leading: /* CircleAvatar(
+                                radius: 30.0,
+                                backgroundColor: Colors.white,
+                                child: ClipOval(
+                                  child: acclist[index].userid != null
+                                      ? Image.network(
+                                          "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png",
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Icon(Icons.error);
+                                          },
+                                        )
+                                      : Icon(Icons.error),
+                                )), */
+                                Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: acclist[index].userid != null
+                                      ? NetworkImage(
+                                          "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png",
+                                        )
+                                      : const AssetImage(
+                                              "assets/images/profile.jpg")
+                                          as ImageProvider,
+                                  fit: BoxFit.cover,
+                                  onError: (error, stackTrace) {
+                                    print("Error loading image: $error");
+                                  },
+                                ),
                               ),
-                              onTap: () async {
-                                User user =
-                                    User.fromJson(acclist[index].toJson());
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (content) => AccProfile(
-                                              user: user,
-                                              post: widget.post,
-                                              //userdata: widget.userdata,
-
-                                              //userdata: widget.userdata,
-                                            )));
-                                loadAccs(username);
-                              },
                             ),
+                            title: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /* Text(truncateString(
+                                        userlist[index].username.toString())), */
+                                Text(truncateString(
+                                    acclist[index].username.toString())),
+                              ],
+                            ),
+                            onTap: () async {
+                              User user =
+                                  User.fromJson(acclist[index].toJson());
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (content) => AccProfile(
+                                            user: user,
+                                            post: widget.post,
+                                            //userdata: widget.userdata,
+
+                                            //userdata: widget.userdata,
+                                          )));
+                              loadAccs(username);
+                            },
                           ),
                         );
                       },
