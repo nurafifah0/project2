@@ -3,7 +3,7 @@
 include_once("dbconnect.php");
 $deets = $_GET['deets'];
 $username = $_GET['username'];
-
+//$userid = $_GET['userid'];
 
 //step 1
 $results_per_page = 10;
@@ -17,7 +17,8 @@ if (isset($_GET['pageno'])){
 $page_first_result = ($pageno - 1) * $results_per_page;
 
 //step 4
-$sqlloadmoments = "SELECT * FROM `tbl_moments` WHERE  `post_deets` LIKE '%$deets%' OR  `user_name` LIKE '%$username%' ";
+//user_id = '%$userid%' AND
+$sqlloadmoments = "SELECT * FROM `tbl_moments` WHERE `post_deets` LIKE '%$deets%' OR  `user_name` LIKE '%$username%' ";
 $result = $conn->query($sqlloadmoments);
 $number_of_result = $result->num_rows;
 $number_of_page = ceil($number_of_result / $results_per_page);
