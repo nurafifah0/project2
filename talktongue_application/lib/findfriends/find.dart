@@ -212,14 +212,15 @@ class _FindFriendsState extends State<FindFriends> {
                                 ],
                               ),
                               onTap: () async {
-                                User userdata =
+                                User user =
                                     User.fromJson(acclist[index].toJson());
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (content) => AccProfile(
-                                              userdata: widget.userdata,
-                                              //post: widget.post,
+                                              user: user,
+                                              post: widget.post,
+                                              //userdata: widget.userdata,
 
                                               //userdata: widget.userdata,
                                             )));

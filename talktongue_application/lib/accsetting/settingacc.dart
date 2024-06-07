@@ -21,10 +21,10 @@ class AccountSetting extends StatefulWidget {
   const AccountSetting(
       {super.key,
       required this.userdata,
-      required this.user,
+      // required this.user,
       required this.post});
   final User userdata;
-  final User user;
+  //final User user;
   final Post post;
 
   @override
@@ -314,7 +314,7 @@ class _AccountSettingState extends State<AccountSetting> {
               MaterialPageRoute(
                   builder: (content) => AccountSetting(
                         userdata: widget.userdata,
-                        user: widget.userdata,
+                        // user: widget.userdata,
                         post: widget.post,
                       )));
         } else {

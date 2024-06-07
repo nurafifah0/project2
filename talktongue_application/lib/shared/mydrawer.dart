@@ -166,7 +166,6 @@ class _MyDrawerState extends State<MyDrawer> {
                           context,
                           MaterialPageRoute(
                               builder: (content) => FindFriends(
-                                    //userdata: widget.userdata,
                                     userdata: widget.userdata,
                                     post: widget.post,
                                   )));
@@ -174,12 +173,10 @@ class _MyDrawerState extends State<MyDrawer> {
                           context,
                           EnterExitRoute(
                               exitPage: FindFriends(
-                                // userdata: widget.userdata,
                                 userdata: widget.userdata,
                                 post: widget.post,
                               ),
                               enterPage: FindFriends(
-                                // userdata: widget.userdata,
                                 userdata: widget.userdata,
                                 post: widget.post,
                               )));
@@ -244,7 +241,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           MaterialPageRoute(
                               builder: (content) => AccountSetting(
                                     userdata: widget.userdata,
-                                    user: widget.userdata,
+                                    //user: widget.userdata,
                                     post: widget.post,
                                   )));
                       Navigator.push(
@@ -252,12 +249,12 @@ class _MyDrawerState extends State<MyDrawer> {
                           EnterExitRoute(
                               exitPage: AccountSetting(
                                 userdata: widget.userdata,
-                                user: widget.userdata,
+                                // user: widget.userdata,
                                 post: widget.post,
                               ),
                               enterPage: AccountSetting(
                                 userdata: widget.userdata,
-                                user: widget.userdata,
+                                // user: widget.userdata,
                                 post: widget.post,
                               )));
                     },
