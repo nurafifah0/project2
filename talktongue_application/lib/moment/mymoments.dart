@@ -214,7 +214,7 @@ class _MymomentsState extends State<Mymoments> {
                       const Divider(
                         color: Colors.black12,
                       ),
-                      SizedBox(
+                      /* SizedBox(
                         height: screenHeight * 0.28,
                         child: postList.isEmpty
                             ? const Center(child: Text("No post available"))
@@ -307,6 +307,10 @@ class _MymomentsState extends State<Mymoments> {
                                       );
                                 },
                               ),
+                      ), */
+                      SizedBox(
+                        height: screenHeight * 0.28,
+                        child: _buildPostListView(),
                       ),
                       SizedBox(
                         height: screenHeight * 0.05,
@@ -342,6 +346,80 @@ class _MymomentsState extends State<Mymoments> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPostListView() {
+    // Filter the postList to only include posts where userId matches userdata.userid
+    List<Post> filteredPosts = postList
+        .where((post) => post.userId == widget.userdata.userid)
+        .toList();
+
+    if (filteredPosts.isEmpty) {
+      return const Center(child: Text("No post available"));
+    }
+
+    return ListView.separated(
+      itemCount: filteredPosts.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: widget.userdata.userid != null
+                    ? NetworkImage(
+                        "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                      )
+                    : const Icon(Icons.error) as ImageProvider,
+                fit: BoxFit.cover,
+                onError: (error, stackTrace) {
+                  print("Error loading image: $error");
+                },
+              ),
+            ),
+          ),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(truncateString(filteredPosts[index].username.toString())),
+              Text(
+                df.format(
+                    DateTime.parse(filteredPosts[index].postDate.toString())),
+                style: const TextStyle(fontSize: 15, color: Colors.black38),
+              ),
+            ],
+          ),
+          subtitle:
+              Text(truncateString(filteredPosts[index].postDeets.toString())),
+          trailing: Wrap(
+            spacing: -16,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: _edit,
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.redAccent,
+                ),
+                onPressed: _delete,
+              ),
+            ],
+          ),
+          isThreeLine: true,
+          onTap: () async {
+            Post post = Post.fromJson(filteredPosts[index].toJson());
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const Divider();
+      },
     );
   }
 

@@ -80,120 +80,148 @@ class _AccountSettingState extends State<AccountSetting> {
         body: Center(
           child: Column(children: [
             Container(
-              height: screenHeight * 0.25,
+              //height: screenHeight * 0.25,
               padding: const EdgeInsets.all(4),
-              child: Card(
-                  child: Row(children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  width: screenWidth * 0.4,
-                  height: screenHeight * 0.4,
-                  child: GestureDetector(
-                    onTap: () {
-                      showSelectionDialog();
-                    },
-                    child: Container(
-                      height: screenHeight * 0.3,
-                      width: screenWidth * 0.8,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: _image == null
-                                  ? NetworkImage(
-                                      // fit: BoxFit.fill,
-                                      "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png")
-                                  : FileImage(_image!) as ImageProvider)),
-                    ),
+              child: Column(children: [
+                GestureDetector(
+                  onTap: () {
+                    showSelectionDialog();
+                  },
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: _image == null
+                                ? NetworkImage(
+                                    // fit: BoxFit.fill,
+                                    "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png")
+                                : FileImage(_image!) as ImageProvider)),
                   ),
                 ),
-                Expanded(
-                    flex: 7,
-                    child: Column(
-                      children: [
-                        Text(
-                          widget.userdata.username.toString().toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 24,
-                          ),
-                        ),
-                        const Divider(
-                          color: Color.fromARGB(255, 34, 50, 58),
-                        ),
-                        Text(
-                          widget.userdata.useremail.toString(),
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ))
-              ])),
+              ]),
             ),
-            Container(
-              height: screenHeight * 0.035,
-              alignment: Alignment.center,
-              color: Colors.purple,
-              width: screenWidth,
-              child: const Text("UPDATE ACCOUNT",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 30,
+                ),
+                Text(widget.userdata.username.toString().toUpperCase(),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
+                IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+              ],
             ),
-            // const Divider(
-            //   color: Colors.blueGrey,
-            // ),
-            Expanded(
-                child: ListView(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                    shrinkWrap: true,
+            Text("Email : ",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center),
+            SizedBox(
+              height: 30,
+            ),
+            Card(
+              color: Color.fromARGB(255, 146, 169, 181),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                  MaterialButton(
-                    onPressed: () {},
-                    child: const Text("UPDATE NAME"),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text("Age : ",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                      Text(""),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                    ],
                   ),
-                  const Divider(
-                    height: 2,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text("Age : ",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                      Text(""),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                    ],
                   ),
-                  MaterialButton(
-                    onPressed: () {},
-                    child: const Text("UPDATE PASSWORD"),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text("Age : ",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                      Text(""),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                    ],
                   ),
-                  const Divider(
-                    height: 2,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text("fluancy language : ",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center),
+                      Text(""),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                    ],
                   ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (content) => const SignUpPage()));
-                    },
-                    child: const Text("NEW REGISTRATION"),
-                  ),
-                  const Divider(
-                    height: 2,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (content) => const LoginPage()));
-                    },
-                    child: const Text("LOGIN"),
-                  ),
-                  const Divider(
-                    height: 2,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (content) => const SplashScreen1()));
-                    },
-                    child: const Text("LOGOUT"),
-                  ),
-                ])),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Text("change email and password ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
+                Text(""),
+                SizedBox(
+                  width: 50,
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  alignment: Alignment.centerRight,
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Account Deletion ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
+                Text(""),
+                SizedBox(
+                  width: 140,
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  alignment: Alignment.centerRight,
+                )
+              ],
+            ),
           ]),
         ));
   }

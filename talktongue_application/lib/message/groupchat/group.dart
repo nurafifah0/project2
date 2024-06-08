@@ -1,22 +1,21 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:talktongue_application/message/chat.dart';
-import 'package:talktongue_application/message/groupchat/group.dart';
+import 'package:talktongue_application/message/contactlist.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
 
-class ContactList extends StatefulWidget {
-  const ContactList({super.key, required this.userdata, required this.post});
+class GroupChat extends StatefulWidget {
+  const GroupChat({super.key, required this.userdata, required this.post});
   final User userdata;
   final Post post;
 
   @override
-  State<ContactList> createState() => _ContactListState();
+  State<GroupChat> createState() => _GroupChatState();
 }
 
-class _ContactListState extends State<ContactList> {
+class _GroupChatState extends State<GroupChat> {
   late double screenWidth, screenHeight;
   List<User> acclist = <User>[];
   String username = "";
@@ -44,24 +43,32 @@ class _ContactListState extends State<ContactList> {
         home: Scaffold(
           appBar: AppBar(
             title: const Text(
-              "Select Contact(s)",
+              "Group Chat",
               textAlign: TextAlign.center,
             ),
             titleTextStyle: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontStyle: FontStyle.italic),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              //fontStyle: FontStyle.italic
+            ),
             iconTheme: const IconThemeData(color: Colors.black),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
+            /* bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Container(
+              color: Colors.grey,
+              height: 1.0,
+            ),
+          ), */
             leading: BackButton(
               onPressed: () {
                 //Navigator.of(context).pop();
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (content) => Chat(
+                        builder: (content) => ContactList(
                               userdata: widget.userdata,
                               post: widget.post,
                             )));
@@ -71,11 +78,14 @@ class _ContactListState extends State<ContactList> {
           backgroundColor: const Color.fromARGB(197, 233, 179, 207),
           body: RefreshIndicator(
             onRefresh: _refresh,
-            child: Padding(
-                padding: const EdgeInsets.all(8),
+            child: Container(
+                padding: const EdgeInsets.all(10),
+                alignment: Alignment.centerLeft,
                 child: Column(
+                  /*  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min, */
                   children: [
-                    Card(
+                    /* Card(
                         color: const Color.fromARGB(69, 0, 0, 0),
                         elevation: 500,
                         child: Padding(
@@ -86,7 +96,7 @@ class _ContactListState extends State<ContactList> {
                                 children: [
                                   const Icon(Icons.group),
                                   TextButton(
-                                    onPressed: _createGroup,
+                                    onPressed: () {},
                                     child: const Text(
                                       "new group",
                                       style: TextStyle(
@@ -98,11 +108,13 @@ class _ContactListState extends State<ContactList> {
                               ),
                             ],
                           ),
-                        )),
-                    const SizedBox(
-                      height: 50,
+                        )), */
+                    SizedBox(
+                      height: 20,
                     ),
                     SizedBox(
+                      width: 400,
+                      height: 50,
                       child: Text(
                         "Contact List:",
                         textAlign: TextAlign.start,
@@ -112,10 +124,11 @@ class _ContactListState extends State<ContactList> {
                             fontSize: 18),
                       ),
                     ),
+
                     //add from friendlist from database
                     Expanded(
                       //height: screenHeight * 0.80,
-                      child: ListView.separated(
+                      child: ListView.builder(
                         itemCount: acclist.length,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
@@ -131,25 +144,12 @@ class _ContactListState extends State<ContactList> {
                             //dense: true,
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider();
-                        },
                       ),
                     ),
                   ],
                 )),
           ),
         ));
-  }
-
-  void _createGroup() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (content) => GroupChat(
-                  userdata: widget.userdata,
-                  post: widget.post,
-                )));
   }
 
   void loadAccs(String username) {
@@ -173,4 +173,9 @@ class _ContactListState extends State<ContactList> {
       setState(() {});
     });
   }
+
+/*   void _cccc() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (content) => const Chat()));
+  } */
 }

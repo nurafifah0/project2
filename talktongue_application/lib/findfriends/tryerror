@@ -1,0 +1,235 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:talktongue_application/findfriends/accprofile.dart';
+import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/shared/serverconfig.dart';
+
+class FindFriends extends StatefulWidget {
+  final User userdata;
+  final Post post;
+
+  const FindFriends({super.key, required this.userdata, required this.post});
+
+  @override
+  _FindFriendsState createState() => _FindFriendsState();
+}
+
+class _FindFriendsState extends State<FindFriends> {
+  List<User> acclist = <User>[];
+  TextEditingController searchctlr = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadAccs('');
+  }
+
+  void loadAccs(String username) {
+    http
+        .get(Uri.parse(
+            "${ServerConfig.server}/talktongue/php/load_users.php?username=$username"))
+        .then((response) {
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == "success") {
+          acclist.clear();
+          if (data['data']['users'] != null) {
+            data['data']['users'].forEach((v) {
+              acclist.add(User.fromJson(v));
+            });
+          }
+        } else {
+          acclist.clear();
+        }
+      }
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Find Friends")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchctlr,
+              decoration: InputDecoration(
+                hintText: "Search Friends",
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    loadAccs(searchctlr.text);
+                  },
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: acclist.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "${ServerConfig.server}/talktongue/assets/profile/${acclist[index].userid}.png"),
+                  ),
+                  title: Text(acclist[index].username ?? ""),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (content) => AccProfile(
+                          currentUser: widget.userdata,
+                          targetUser: acclist[index],
+                          post: widget.post,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/shared/serverconfig.dart';
+
+class AccProfile extends StatefulWidget {
+  const AccProfile(
+      {super.key,
+      required this.currentUser,
+      required this.targetUser,
+      required this.post});
+  final User currentUser;
+  final User targetUser;
+  final Post post;
+
+  @override
+  State<AccProfile> createState() => _AccProfileState();
+}
+
+class _AccProfileState extends State<AccProfile> {
+  late double screenWidth, screenHeight;
+  List<Post> postList = <Post>[];
+  final df = DateFormat('hh:mm a   dd/MM/yyyy');
+
+  @override
+  void initState() {
+    super.initState();
+    loadPosts();
+  }
+
+  Future<void> _refresh() async {
+    loadPosts();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Profile"),
+        leading: BackButton(onPressed: () {
+          Navigator.pop(context);
+        }),
+      ),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              CircleAvatar(
+                radius: 80,
+                backgroundImage: NetworkImage(
+                    "${ServerConfig.server}/talktongue/assets/profile/${widget.targetUser.userid}.png"),
+              ),
+              SizedBox(height: 20),
+              Text(
+                widget.targetUser.username ?? "",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                widget.targetUser.useremail ?? "",
+                style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+              ),
+              SizedBox(height: 20),
+              Text("MOMENTS:"),
+              postList.isEmpty
+                  ? const Center(child: Text("No post available"))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                     physics: NeverScrollableScrollPhysics(),
+                     
+                      itemCount: postList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(postList[index].username ?? ""),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(df.format(DateTime.parse(
+                                  postList[index].postDate ?? ""))),
+                              Text(postList[index].postDeets ?? ""),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void loadPosts() {
+    http
+        .get(Uri.parse(
+            "${ServerConfig.server}/talktongue/php/load_momentaccprofile.php?userid=${widget.targetUser.userid}"))
+        .then((response) {
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == 'success') {
+          postList.clear();
+          if (data['data']['posts'] != null) {
+            data['data']['posts'].forEach((v) {
+              postList.add(Post.fromJson(v));
+            });
+          }
+        } else {
+          postList.clear();
+        }
+      }
+      setState(() {});
+    });
+  }
+}
+
+
