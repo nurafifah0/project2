@@ -1,0 +1,32 @@
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_email" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 39
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_password" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 41
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_datereg" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 42
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_email" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 39
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_password" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 41
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_datereg" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 42
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_email" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 39
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_password" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 41
+[28-Jun-2024 19:35:48 Europe/Berlin] PHP Warning:  Undefined array key "user_datereg" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 42
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_email" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 41
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_password" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_datereg" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 44
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_email" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 41
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_password" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_datereg" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 44
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_email" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 41
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_password" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[28-Jun-2024 19:40:03 Europe/Berlin] PHP Warning:  Undefined array key "user_datereg" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 44
+[28-Jun-2024 19:44:16 Europe/Berlin] PHP Warning:  Undefined variable $response_main in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 83
+[28-Jun-2024 19:44:54 Europe/Berlin] PHP Warning:  Undefined variable $response_main in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 83
+[02-Jul-2024 18:26:43 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 29
+[02-Jul-2024 18:26:43 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 29
+[02-Jul-2024 18:26:43 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 29
+[02-Jul-2024 18:26:43 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 29
+[02-Jul-2024 18:27:20 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:27:20 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:27:20 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:27:20 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:29:53 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:29:53 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:29:53 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
+[02-Jul-2024 18:29:53 Europe/Berlin] PHP Warning:  Undefined array key "latestmessage" in C:\xampp\htdocs\talktongue\php\load_chat_users2.php on line 43
