@@ -111,14 +111,15 @@ class _AccountSettingState extends State<AccountSetting> {
                   width: 30,
                 ),
                 Text(widget.userdata.username.toString().toUpperCase(),
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
               ],
             ),
-            const Text("Email : ",
+            /* const Text("Email : ",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center),
+                textAlign: TextAlign.center), */
             const SizedBox(
               height: 30,
             ),
