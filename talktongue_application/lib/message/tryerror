@@ -1,0 +1,435 @@
+1. Chat List Page
+The ChatListPage displays all users asad has chatted with:
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/shared/serverconfig.dart';
+import 'chat_page.dart';
+
+class ChatListPage extends StatefulWidget {
+  const ChatListPage({super.key, required this.currentUser});
+  final User currentUser;
+
+  @override
+  State<ChatListPage> createState() => _ChatListPageState();
+}
+
+class _ChatListPageState extends State<ChatListPage> {
+  List<User> chatUsers = <User>[];
+
+  @override
+  void initState() {
+    super.initState();
+    loadChatUsers();
+  }
+
+  void loadChatUsers() async {
+    final response = await http.get(Uri.parse(
+        "${ServerConfig.server}/talktongue/php/load_chat_users.php?userid=${widget.currentUser.userid}"));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        setState(() {
+          chatUsers = (data['data']['users'] as List)
+              .map((user) => User.fromJson(user))
+              .toList();
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Chat List")),
+      body: ListView.builder(
+        itemCount: chatUsers.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "${ServerConfig.server}/talktongue/assets/profile/${chatUsers[index].userid}.png"),
+            ),
+            title: Text(chatUsers[index].username ?? ""),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                    currentUser: widget.currentUser,
+                    targetUser: chatUsers[index],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+  
+}
+
+
+
+ actions: <Widget>[
+            PopupMenuButton<int>(
+              onSelected: (item) => handleClick(item),
+              itemBuilder: (context) => [
+                const PopupMenuItem<int>(value: 0, child: Text('Pin Chat')),
+                const PopupMenuItem<int>(value: 1, child: Text('Delete Chat')),
+              ],
+            ),
+          ],
+
+
+            handleClick(int item) {
+    switch (item) {
+      case 0:
+        break;
+      case 1:
+        break;
+    }
+  }
+
+  additem(item) {
+    switch (item) {
+      case 0:
+        break;
+      case 1:
+        break;
+    }
+  }
+
+
+import 'package:flutter/material.dart';
+import 'package:talktongue_application/message/contactlist.dart';
+import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/shared/mydrawer.dart';
+//import 'package:talktongue_application/view/main.dart';
+
+//void main() => runApp(const Chat());
+
+class Chat extends StatefulWidget {
+  const Chat({super.key, required this.userdata, required this.post});
+  final User userdata;
+  final Post post;
+
+  @override
+  State<Chat> createState() => _ChatState();
+}
+
+class _ChatState extends State<Chat> {
+  bool clickedCentreFAB = false;
+
+  get floatingActionButton => null;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Material App',
+      theme: ThemeData(
+          //primarySwatch: Colors.pink,
+          colorSchemeSeed: const Color.fromARGB(197, 233, 179, 207)),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Chats"),
+          titleTextStyle: const TextStyle(
+              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          /* leading: BackButton(
+            onPressed: () {
+              //Navigator.of(context).pop();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (content) => const Homepage()));
+            },
+          ), */
+          actions: <Widget>[
+            PopupMenuButton<int>(
+              onSelected: (item) => handleClick(item),
+              itemBuilder: (context) => [
+                const PopupMenuItem<int>(value: 0, child: Text('Pin Chat')),
+                const PopupMenuItem<int>(value: 1, child: Text('Delete Chat')),
+              ],
+            ),
+          ],
+        ),
+        drawer: MyDrawer(
+          page: "chat",
+          userdata: widget.userdata,
+          post: widget.post,
+        ),
+        backgroundColor: const Color.fromARGB(197, 233, 179, 207),
+        body: const SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(children: [
+                Text("hello world"),
+                SizedBox(
+                  height: 30,
+                ),
+              ]),
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: ()
+              // FloatingActionButtonLocation.centerDocked;
+              {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (content) => ContactList(
+                          userdata: widget.userdata,
+                          post: widget.post,
+                        )));
+          },
+
+          tooltip: 'Add',
+          //heroTag: 'uniqueTag',
+          child: const Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+
+  handleClick(int item) {
+    switch (item) {
+      case 0:
+        break;
+      case 1:
+        break;
+    }
+  }
+
+  additem(item) {
+    switch (item) {
+      case 0:
+        break;
+      case 1:
+        break;
+    }
+  }
+}
+
+
+
+
+
+2. Chat Page
+The ChatPage displays the conversation between asad and umar:
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:talktongue_application/models/user.dart';
+import 'package:talktongue_application/models/message.dart';
+import 'package:talktongue_application/shared/serverconfig.dart';
+
+class ChatPage extends StatefulWidget {
+  const ChatPage(
+      {super.key, required this.currentUser, required this.targetUser});
+  final User currentUser;
+  final User targetUser;
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  List<Message> messages = <Message>[];
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadMessages();
+  }
+
+  void loadMessages() async {
+    final response = await http.get(Uri.parse(
+        "${ServerConfig.server}/talktongue/php/load_messages.php?sender_id=${widget.currentUser.userid}&receiver_id=${widget.targetUser.userid}"));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        setState(() {
+          messages = (data['data']['messages'] as List)
+              .map((message) => Message.fromJson(message))
+              .toList();
+        });
+      }
+    }
+  }
+
+  void sendMessage() async {
+    if (_messageController.text.trim().isEmpty) return;
+    final response = await http.post(
+        Uri.parse("${ServerConfig.server}/talktongue/php/send_message.php"),
+        body: {
+          'sender_id': widget.currentUser.userid,
+          'receiver_id': widget.targetUser.userid,
+          'message': _messageController.text,
+        });
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        _messageController.clear();
+        loadMessages();
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Chat with ${widget.targetUser.username}")),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(messages[index].content ?? ""),
+                  subtitle: Text(messages[index].senderId == widget.currentUser.userid
+                      ? "You"
+                      : widget.targetUser.username ?? ""),
+                  trailing: Text(messages[index].timestamp ?? ""),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter your message",
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: sendMessage,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+PHP Scripts
+load_chat_users.php
+This script retrieves the list of users asad has chatted with:
+
+<?php
+include_once("dbconnect.php");
+$userid = $_GET['userid'];
+
+$sql = "SELECT DISTINCT user_id, user_name FROM tbl_users WHERE user_id IN 
+        (SELECT DISTINCT receiver_id FROM tbl_messages WHERE sender_id = '$userid'
+         UNION
+         SELECT DISTINCT sender_id FROM tbl_messages WHERE receiver_id = '$userid')";
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $userslist["users"] = array();
+    while ($row = $result->fetch_assoc()) {
+        $user = array();
+        $user['userid'] = $row['user_id'];
+        $user['username'] = $row['user_name'];
+        array_push($userslist["users"], $user);
+    }
+    $response = array('status' => 'success', 'data' => $userslist);
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed', 'data' => null);
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
+
+
+load_messages.php
+This script retrieves the conversation between asad and umar:
+
+<?php
+include_once("dbconnect.php");
+$sender_id = $_GET['sender_id'];
+$receiver_id = $_GET['receiver_id'];
+
+$sql = "SELECT * FROM tbl_messages WHERE 
+        (sender_id = '$sender_id' AND receiver_id = '$receiver_id') OR 
+        (sender_id = '$receiver_id' AND receiver_id = '$sender_id') 
+        ORDER BY timestamp ASC";
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $messageslist["messages"] = array();
+    while ($row = $result->fetch_assoc()) {
+        $message = array();
+        $message['message_id'] = $row['message_id'];
+        $message['sender_id'] = $row['sender_id'];
+        $message['receiver_id'] = $row['receiver_id'];
+        $message['content'] = $row['content'];
+        $message['timestamp'] = $row['timestamp'];
+        array_push($messageslist["messages"], $message);
+    }
+    $response = array('status' => 'success', 'data' => $messageslist);
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed', 'data' => null);
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
+
+
+send_message.php
+This script sends a message from asad to umar:
+
+<?php
+include_once("dbconnect.php");
+
+$sender_id = $_POST['sender_id'];
+$receiver_id = $_POST['receiver_id'];
+$message = $_POST['message'];
+
+$sql = "INSERT INTO tbl_messages (sender_id, receiver_id, content) VALUES 
+        ('$sender_id', '$receiver_id', '$message')";
+
+if ($conn->query($sql) === TRUE) {
+    $response = array('status' => 'success');
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed');
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
+ 
+

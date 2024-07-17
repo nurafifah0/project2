@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:talktongue_application/accsetting/settingacc.dart';
 import 'package:talktongue_application/findfriends/find.dart';
-import 'package:talktongue_application/learning/learn.dart';
-import 'package:talktongue_application/message/chat.dart';
+import 'package:talktongue_application/learning/learns.dart';
+import 'package:talktongue_application/message/chatlist.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/moment/moment.dart';
@@ -16,11 +16,10 @@ class MyDrawer extends StatefulWidget {
   final Post post;
 
   const MyDrawer(
-      {Key? key,
+      {super.key,
       required this.page,
       required this.userdata,
-      required this.post})
-      : super(key: key);
+      required this.post});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -63,10 +62,8 @@ class _MyDrawerState extends State<MyDrawer> {
                       ? NetworkImage(
                           "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
                         )
-                      : const Icon(Icons.error) as ImageProvider,
-                  /* : const AssetImage(
-                                            "assets/images/profile.jpg")
-                                        as ImageProvider, */
+                      : const AssetImage("assets/images/profile.jpg")
+                          as ImageProvider,
                   fit: BoxFit.cover,
                   onError: (error, stackTrace) {
                     print("Error loading image: $error");
@@ -152,19 +149,19 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) => Chat(
-                                    userdata: widget.userdata,
+                              builder: (content) => ChatListPage(
+                                    currentUser: widget.userdata,
                                     post: widget.post,
                                   )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage: Chat(
-                                userdata: widget.userdata,
+                              exitPage: ChatListPage(
+                                currentUser: widget.userdata,
                                 post: widget.post,
                               ),
-                              enterPage: Chat(
-                                userdata: widget.userdata,
+                              enterPage: ChatListPage(
+                                currentUser: widget.userdata,
                                 post: widget.post,
                               )));
                     },
@@ -222,18 +219,18 @@ class _MyDrawerState extends State<MyDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (content) => LearningResources(
+                              builder: (content) => Learnings(
                                     userdata: widget.userdata,
                                     post: widget.post,
                                   )));
                       Navigator.push(
                           context,
                           EnterExitRoute(
-                              exitPage: LearningResources(
+                              exitPage: Learnings(
                                 userdata: widget.userdata,
                                 post: widget.post,
                               ),
-                              enterPage: LearningResources(
+                              enterPage: Learnings(
                                 userdata: widget.userdata,
                                 post: widget.post,
                               )));

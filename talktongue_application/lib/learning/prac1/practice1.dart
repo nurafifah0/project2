@@ -30,7 +30,7 @@ class _Practice1State extends State<Practice1> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "LIVING ROOM",
+            "GRAMÁTICA 1 ",
             textAlign: TextAlign.center,
           ),
           titleTextStyle: const TextStyle(
@@ -91,14 +91,19 @@ class _Practice1State extends State<Practice1> {
                             image: AssetImage("assets/images/room.jpg"),
                           ),
                           const Text(
-                            "Let’s talk about what goes inside Radio widget. Per the regular design norms, a radio button is followed by a label or a text that shows what that option constitutes, hence, after declaring new instance of Radio widget, we need to have a text widget for each radio object so that UI shows a radio button followed by a text, as shown below",
+                            "Alicia: Hola Roberto, ¿cómo ______ tu profe de español?",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
+                          ),
+                          const Text(
+                            "Roberto: Pues, él ________ simpático e inteligente.",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
                           ),
                           SizedBox(
                             height: 30,
                             child: RadioListTile(
-                              title: const Text("Male"),
+                              title: const Text("fuiste, son"),
                               value: "male",
                               groupValue: gender,
                               onChanged: (value) {
@@ -111,7 +116,7 @@ class _Practice1State extends State<Practice1> {
                             ),
                           ),
                           RadioListTile(
-                            title: const Text("feMale"),
+                            title: const Text("es, es "),
                             value: "female",
                             groupValue: gender,
                             onChanged: (value) {
@@ -239,7 +244,7 @@ class _Practice1State extends State<Practice1> {
 
   void _result() {
     // String answer;
-    answer = "the right answer is feMale";
+    answer = "the right answer is es, es";
     const Text('fnjfd');
     print(answer);
     setState(() {});

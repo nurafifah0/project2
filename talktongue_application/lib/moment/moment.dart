@@ -28,7 +28,7 @@ class _MomentState extends State<Moment> {
   //var val = 50;
   bool isDisable = false;
   Random random = Random();
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
   List<Post> postList = <Post>[];
   List<User> userlist = <User>[];
   int numofpage = 1;
@@ -119,7 +119,7 @@ class _MomentState extends State<Moment> {
                   height: 5,
                   width: 50,
                 ),
-                Container(
+                SizedBox(
                   height: screenHeight * 0.83,
                   child: postList.isEmpty //|| userlist.isEmpty
                       ? const Center(child: Text("No post available"))
@@ -188,8 +188,7 @@ class _MomentState extends State<Moment> {
                                   isThreeLine: true,
                                   //dense: true,
                                   onTap: () async {
-                                    Post post =
-                                        Post.fromJson(postList[index].toJson());
+                                    // Post post =Post.fromJson(postList[index].toJson());
                                   },
                                 ),
                               ),

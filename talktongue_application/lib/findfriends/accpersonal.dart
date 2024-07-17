@@ -101,7 +101,7 @@ class _AccProfileState extends State<AccProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         /* Container(
@@ -135,7 +135,7 @@ class _AccProfileState extends State<AccProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text(
@@ -211,7 +211,7 @@ class _AccProfileState extends State<AccProfile> {
                                       'Posted on ${df.format(DateTime.parse(postList[index].postDate ?? ""))}'),
                                   Text(
                                     postList[index].postDeets ?? "",
-                                    style: TextStyle(color: Colors.black),
+                                    style: const TextStyle(color: Colors.black),
                                   ),
                                 ],
                               ),

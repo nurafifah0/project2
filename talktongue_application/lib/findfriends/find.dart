@@ -31,7 +31,7 @@ class _FindFriendsState extends State<FindFriends> {
   //var val = 50;
   bool isDisable = false;
   Random random = Random();
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   int numofpage = 1;
   int curpage = 1;
@@ -189,7 +189,7 @@ class _FindFriendsState extends State<FindFriends> {
                       height: 5,
                       width: 50,
                     ),
-                    Container(
+                    SizedBox(
                       height: screenHeight * 0.8,
                       child: ListView.separated(
                         itemCount: acclist.length,
@@ -246,8 +246,7 @@ class _FindFriendsState extends State<FindFriends> {
                                 ],
                               ),
                               onTap: () async {
-                                User user =
-                                    User.fromJson(acclist[index].toJson());
+                                //  User user = User.fromJson(acclist[index].toJson());
                                 /*  Post post =
                                     Post.fromJson(postList[index].toJson()); */
                                 await Navigator.push(

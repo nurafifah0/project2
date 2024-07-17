@@ -17,8 +17,7 @@ class Splash1 extends StatelessWidget {
 } */
 
 class Splash2 extends StatefulWidget {
-  const Splash2({Key? key, required this.userdata, required this.post})
-      : super(key: key);
+  const Splash2({super.key, required this.userdata, required this.post});
   final User userdata;
   final Post post;
 

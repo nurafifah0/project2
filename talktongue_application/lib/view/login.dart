@@ -4,7 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:talktongue_application/message/chat.dart';
+import 'package:talktongue_application/message/chatlist.dart';
+
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -16,8 +17,8 @@ import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -250,8 +251,8 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (content) => Chat(
-                        userdata: user,
+                  builder: (content) => ChatListPage(
+                        currentUser: user,
                         post: post,
                       )));
         } else {

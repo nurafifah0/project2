@@ -31,7 +31,7 @@ class _Practice1sub9State extends State<Practice1sub9> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "LIVING ROOM",
+            "GRAMÁTICA 1 ",
             textAlign: TextAlign.center,
           ),
           titleTextStyle: const TextStyle(

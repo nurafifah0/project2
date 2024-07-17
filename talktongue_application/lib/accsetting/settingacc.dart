@@ -9,9 +9,9 @@ import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
-import 'package:talktongue_application/view/login.dart';
+/* import 'package:talktongue_application/view/login.dart';
 import 'package:talktongue_application/view/signup.dart';
-import 'package:talktongue_application/view/splashscreen.dart';
+import 'package:talktongue_application/view/splashscreen.dart'; */
 import 'package:http/http.dart' as http;
 //import 'package:talktongue_application/view/main.dart';
 
@@ -107,117 +107,117 @@ class _AccountSettingState extends State<AccountSetting> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
                 Text(widget.userdata.username.toString().toUpperCase(),
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
-                IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
               ],
             ),
-            Text("Email : ",
+            const Text("Email : ",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Card(
-              color: Color.fromARGB(255, 146, 169, 181),
+              color: const Color.fromARGB(255, 146, 169, 181),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
-                      Text("Age : ",
+                      const Text("Age : ",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center),
-                      Text(""),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                      const Text(""),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
                     ],
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
-                      Text("Age : ",
+                      const Text("Age : ",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center),
-                      Text(""),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                      const Text(""),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
                     ],
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
-                      Text("Age : ",
+                      const Text("Age : ",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center),
-                      Text(""),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                      const Text(""),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
                     ],
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 30,
                       ),
-                      Text("fluancy language : ",
+                      const Text("fluancy language : ",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center),
-                      Text(""),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                      const Text(""),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text("change email and password ",
+                const Text("change email and password ",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
-                Text(""),
-                SizedBox(
+                const Text(""),
+                const SizedBox(
                   width: 50,
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  icon: const Icon(Icons.arrow_forward_ios_rounded),
                   alignment: Alignment.centerRight,
                 )
               ],
             ),
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text("Account Deletion ",
+                const Text("Account Deletion ",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
-                Text(""),
-                SizedBox(
+                const Text(""),
+                const SizedBox(
                   width: 140,
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  icon: const Icon(Icons.arrow_forward_ios_rounded),
                   alignment: Alignment.centerRight,
                 )
               ],

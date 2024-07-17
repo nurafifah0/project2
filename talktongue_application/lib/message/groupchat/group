@@ -7,9 +7,11 @@ import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
 
 class GroupChat extends StatefulWidget {
-  const GroupChat({super.key, required this.userdata, required this.post});
+  const GroupChat({
+    super.key,
+    required this.userdata,
+  });
   final User userdata;
-  final Post post;
 
   @override
   State<GroupChat> createState() => _GroupChatState();
@@ -70,7 +72,6 @@ class _GroupChatState extends State<GroupChat> {
                     MaterialPageRoute(
                         builder: (content) => ContactList(
                               userdata: widget.userdata,
-                              post: widget.post,
                             )));
               },
             ),

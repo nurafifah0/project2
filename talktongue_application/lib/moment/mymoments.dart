@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
+//import 'dart:io';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/models/post.dart';
@@ -24,7 +23,7 @@ class Mymoments extends StatefulWidget {
 
 class _MymomentsState extends State<Mymoments> {
   late double screenWidth, screenHeight;
-  File? _image;
+  //File? _image;
   //var pathAsset = "assets/images/profile.png";
   final df = DateFormat('hh:mm a   dd/MM/yyyy');
   //var val = 50;
@@ -176,7 +175,7 @@ class _MymomentsState extends State<Mymoments> {
                           //textAlign: TextAlign.end
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -413,7 +412,7 @@ class _MymomentsState extends State<Mymoments> {
           ),
           isThreeLine: true,
           onTap: () async {
-            Post post = Post.fromJson(filteredPosts[index].toJson());
+            // Post post = Post.fromJson(filteredPosts[index].toJson());
           },
         );
       },

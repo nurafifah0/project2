@@ -1,0 +1,386 @@
+Chat List Page
+Create a page to display the list of users Asad has been chatting with.
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:your_app_name/models/user.dart';
+import 'package:your_app_name/shared/serverconfig.dart';
+import 'chatpage.dart';
+
+class ChatListPage extends StatefulWidget {
+  final User currentUser;
+
+  const ChatListPage({Key? key, required this.currentUser}) : super(key: key);
+
+  @override
+  _ChatListPageState createState() => _ChatListPageState();
+}
+
+class _ChatListPageState extends State<ChatListPage> {
+  List<User> chatUsers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadChatUsers();
+  }
+
+  void loadChatUsers() async {
+    final response = await http.get(Uri.parse(
+        "${ServerConfig.server}/your_php_folder/load_chat_users.php?userid=${widget.currentUser.userid}"));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        setState(() {
+          chatUsers = (data['data']['users'] as List)
+              .map((user) => User.fromJson(user))
+              .toList();
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Chat List")),
+      body: ListView.builder(
+        itemCount: chatUsers.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(chatUsers[index].username),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                    currentUser: widget.currentUser,
+                    targetUser: chatUsers[index],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+Chat Page
+Create a page to display the conversation between Asad and Umar.
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:your_app_name/models/message.dart';
+import 'package:your_app_name/models/user.dart';
+import 'package:your_app_name/shared/serverconfig.dart';
+
+class ChatPage extends StatefulWidget {
+  final User currentUser;
+  final User targetUser;
+
+  const ChatPage({Key? key, required this.currentUser, required this.targetUser}) : super(key: key);
+
+  @override
+  _ChatPageState createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  List<Message> messages = [];
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadMessages();
+  }
+
+  void loadMessages() async {
+    final response = await http.get(Uri.parse(
+        "${ServerConfig.server}/your_php_folder/load_messages.php?sender_id=${widget.currentUser.userid}&receiver_id=${widget.targetUser.userid}"));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        setState(() {
+          messages = (data['data']['messages'] as List)
+              .map((message) => Message.fromJson(message))
+              .toList();
+        });
+      }
+    }
+  }
+
+  void sendMessage() async {
+    if (_messageController.text.trim().isEmpty) return;
+    final response = await http.post(
+      Uri.parse("${ServerConfig.server}/your_php_folder/send_message.php"),
+      body: {
+        'sender_id': widget.currentUser.userid,
+        'receiver_id': widget.targetUser.userid,
+        'message': _messageController.text,
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        _messageController.clear();
+        loadMessages();
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Chat with ${widget.targetUser.username}")),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(messages[index].content),
+                  subtitle: Text(
+                    messages[index].senderId == widget.currentUser.userid
+                        ? "You"
+                        : widget.targetUser.username,
+                  ),
+                  trailing: Text(messages[index].timestamp),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter your message",
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: sendMessage,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+Contact List Page
+Create a page to display all users and navigate to the chat page on clicking a user.
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:your_app_name/models/user.dart';
+import 'package:your_app_name/shared/serverconfig.dart';
+import 'chatpage.dart';
+
+class ContactListPage extends StatefulWidget {
+  final User currentUser;
+
+  const ContactListPage({Key? key, required this.currentUser}) : super(key: key);
+
+  @override
+  _ContactListPageState createState() => _ContactListPageState();
+}
+
+class _ContactListPageState extends State<ContactListPage> {
+  List<User> contactList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadContacts();
+  }
+
+  void loadContacts() async {
+    final response = await http.get(Uri.parse(
+        "${ServerConfig.server}/your_php_folder/load_users.php"));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        setState(() {
+          contactList = (data['data']['users'] as List)
+              .map((user) => User.fromJson(user))
+              .toList();
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Contact List")),
+      body: ListView.builder(
+        itemCount: contactList.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(contactList[index].username),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                    currentUser: widget.currentUser,
+                    targetUser: contactList[index],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+PHP Scripts
+load_chat_users.php
+Load the users Asad has been chatting with.
+
+<?php
+include_once("dbconnect.php");
+$userid = $_GET['userid'];
+
+$sql = "SELECT DISTINCT user_id, user_name FROM tbl_users WHERE user_id IN 
+        (SELECT DISTINCT receiver_id FROM tbl_messages WHERE sender_id = '$userid'
+         UNION
+         SELECT DISTINCT sender_id FROM tbl_messages WHERE receiver_id = '$userid')";
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $userslist["users"] = array();
+    while ($row = $result->fetch_assoc()) {
+        $user = array();
+        $user['userid'] = $row['user_id'];
+        $user['username'] = $row['user_name'];
+        array_push($userslist["users"], $user);
+    }
+    $response = array('status' => 'success', 'data' => $userslist);
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed', 'data' => null);
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
+
+
+send_message.php
+Send a message from Asad to Umar.
+
+<?php
+include_once("dbconnect.php");
+
+$sender_id = $_POST['sender_id'];
+$receiver_id = $_POST['receiver_id'];
+$message = $_POST['message'];
+
+$sql = "INSERT INTO tbl_messages (sender_id, receiver_id, content) VALUES 
+        ('$sender_id', '$receiver_id', '$message')";
+
+if ($conn->query($sql) === TRUE) {
+    $response = array('status' => 'success');
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed', 'error' => $conn->error);
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
+
+
+load_messages.php
+Load the messages between Asad and Umar.
+
+<?php
+include_once("dbconnect.php");
+$sender_id = $_GET['sender_id'];
+$receiver_id = $_GET['receiver_id'];
+
+$sql = "SELECT * FROM tbl_messages WHERE 
+        (sender_id = '$sender_id' AND receiver_id = '$receiver_id') OR 
+        (sender_id = '$receiver_id' AND receiver_id = '$sender_id') 
+        ORDER BY timestamp ASC";
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $messageslist["messages"] = array();
+    while ($row = $result->fetch_assoc()) {
+        $message = array();
+        $message['message_id'] = $row['message_id'];
+        $message['sender_id'] = $row['sender_id'];
+        $message['receiver_id'] = $row['receiver_id'];
+        $message['content'] = $row['content'];
+        $message['timestamp'] = $row['timestamp'];
+        array_push($messageslist["messages"], $message);
+    }
+    $response = array('status' => 'success', 'data' => $messageslist);
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed', 'data' => null);
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
+
+load_users.php
+Load all users for the contact list.
+
+<?php
+include_once("dbconnect.php");
+
+$sql = "SELECT user_id, user_name FROM tbl_users";
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $userslist["users"] = array();
+    while ($row = $result->fetch_assoc()) {
+        $user = array();
+        $user['userid'] = $row['user_id'];
+        $user['username'] = $row['user_name'];
+        array_push($userslist["users"], $user);
+    }
+    $response = array('status' => 'success', 'data' => $userslist);
+    sendJsonResponse($response);
+} else {
+    $response = array('status' => 'failed', 'data' => null);
+    sendJsonResponse($response);
+}
+
+function sendJsonResponse($sentArray) {
+    header('Content-Type: application/json');
+    echo json_encode($sentArray);
+}
+?>
