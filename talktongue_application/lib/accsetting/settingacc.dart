@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:talktongue_application/accsetting/accdeletion.dart';
+import 'package:talktongue_application/accsetting/emailchange.dart';
+import 'package:talktongue_application/accsetting/passchange.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
@@ -68,6 +71,7 @@ class _AccountSettingState extends State<AccountSetting> {
   bool isDisable = false;
   //final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   // final TextEditingController _oldpasswordController = TextEditingController();
   // final TextEditingController _newpasswordController = TextEditingController();
   // final TextEditingController _newaddressController = TextEditingController();
@@ -82,6 +86,7 @@ class _AccountSettingState extends State<AccountSetting> {
       isDisable = false;
     }
 
+    _nameController.text = widget.userdata.username.toString();
     _ageController.text = widget.setting.userage.toString();
     dropdownvalue1 = widget.setting.usernativelang.toString();
     dropdownvalue2 = widget.setting.userlearninglang.toString();
@@ -168,7 +173,11 @@ class _AccountSettingState extends State<AccountSetting> {
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
+                IconButton(
+                    onPressed: () {
+                      _updateUsernameDialog();
+                    },
+                    icon: const Icon(Icons.edit))
               ],
             ),
             /* const Text("Email : ",
@@ -390,7 +399,7 @@ class _AccountSettingState extends State<AccountSetting> {
                 ],
               ),
             ),
-            Center(
+            /*   Center(
               child: OutlinedButton(
                 onPressed: () {
                   //  _update;
@@ -403,7 +412,7 @@ class _AccountSettingState extends State<AccountSetting> {
                   ),
                 ),
               ),
-            ),
+            ), */
             const SizedBox(
               height: 100,
             ),
@@ -412,7 +421,7 @@ class _AccountSettingState extends State<AccountSetting> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text("change email and password ",
+                const Text("change email ",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
                 const Text(""),
@@ -420,7 +429,40 @@ class _AccountSettingState extends State<AccountSetting> {
                   width: 50,
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (content) => EmailChange(
+                                  userdata: widget.userdata,
+                                )));
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios_rounded),
+                  alignment: Alignment.centerRight,
+                )
+              ],
+            ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text("change password ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center),
+                const Text(""),
+                const SizedBox(
+                  width: 50,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (content) => PassChange(
+                                  userdata: widget.userdata,
+                                )));
+                  },
                   icon: const Icon(Icons.arrow_forward_ios_rounded),
                   alignment: Alignment.centerRight,
                 )
@@ -439,7 +481,14 @@ class _AccountSettingState extends State<AccountSetting> {
                   width: 140,
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (content) => AccountDeletion(
+                                  userid: '',
+                                )));
+                  },
                   icon: const Icon(Icons.arrow_forward_ios_rounded),
                   alignment: Alignment.centerRight,
                 )
@@ -979,5 +1028,95 @@ class _AccountSettingState extends State<AccountSetting> {
         }
       }
     });
+  }
+
+  void _updateUsernameDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          title: const Text(
+            "Change Name?",
+            style: TextStyle(),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                    labelText: 'Name',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0))),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Yes",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                String newname = _nameController.text;
+                _updateUsername(newname);
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _updateUsername(newname) async {
+    String newname = _nameController.text;
+    String userId = widget.userdata.userid!;
+
+    var url =
+        Uri.parse("${ServerConfig.server}/talktongue/php/update_username.php");
+    var response = await http.post(url, body: {
+      'userid': userId,
+      'newusername': newname,
+    });
+
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['status'] == 'success') {
+        // Update the user name in the app
+        setState(() {
+          widget.userdata.username = newname;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Email updated successfully")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to update name")),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error updating name")),
+      );
+    }
   }
 }
