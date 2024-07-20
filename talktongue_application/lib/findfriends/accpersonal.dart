@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:talktongue_application/findfriends/find.dart';
 import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
 
@@ -14,12 +15,14 @@ class AccProfile extends StatefulWidget {
       //required this.userdata,
       required this.currentUser,
       required this.targetUser,
-      required this.post});
+      required this.post,
+      required this.setting});
   final User currentUser;
   final User targetUser;
   //final User user;
   //final User userdata;
   final Post post;
+  final Setting setting;
 
   @override
   State<AccProfile> createState() => _AccProfileState();
@@ -86,6 +89,7 @@ class _AccProfileState extends State<AccProfile> {
                         builder: (content) => FindFriends(
                               userdata: widget.currentUser,
                               post: widget.post,
+                              setting: widget.setting,
                             )));
               },
             ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/moment/mymoments.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
@@ -16,7 +17,12 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 class Moment extends StatefulWidget {
   final User userdata;
   final Post post;
-  const Moment({super.key, required this.userdata, required this.post});
+  final Setting setting;
+  const Moment(
+      {super.key,
+      required this.userdata,
+      required this.post,
+      required this.setting});
 
   @override
   State<Moment> createState() => _MomentState();
@@ -109,130 +115,138 @@ class _MomentState extends State<Moment> {
             page: "books",
             userdata: widget.userdata,
             post: widget.post,
+            setting: widget.setting,
           ),
           backgroundColor: const Color.fromARGB(197, 233, 179, 207),
-          body: RefreshIndicator(
-            onRefresh: _refresh,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 5,
-                  width: 50,
-                ),
-                SizedBox(
-                  height: screenHeight * 0.83,
-                  child: postList.isEmpty //|| userlist.isEmpty
-                      ? const Center(child: Text("No post available"))
-                      : ListView.separated(
-                          itemCount: postList.length,
-                          itemBuilder: (context, index) {
-                            /*  if (index >= userlist.length) {
-                              return const SizedBox.shrink();
-                            } */
-                            return ConstrainedBox(
-                              constraints:
-                                  BoxConstraints(maxWidth: screenWidth * 0.8),
-                              child: SizedBox(
-                                width: screenWidth * 0.8,
-                                child: ListTile(
-                                  leading: /* CircleAvatar(
-                                      radius: 30.0,
-                                      backgroundColor: Colors.white,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                          "${ServerConfig.server}/talktongue/assets/profile/${postList[index].userId}.png",
-                                         
+          body: SingleChildScrollView(
+            child: RefreshIndicator(
+              onRefresh: _refresh,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 5,
+                    width: 50,
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.83,
+                    child: postList.isEmpty //|| userlist.isEmpty
+                        ? const Center(child: Text("No post available"))
+                        : ListView.separated(
+                            itemCount: postList.length,
+                            itemBuilder: (context, index) {
+                              /*  if (index >= userlist.length) {
+                                return const SizedBox.shrink();
+                              } */
+                              return ConstrainedBox(
+                                constraints:
+                                    BoxConstraints(maxWidth: screenWidth * 0.8),
+                                child: SizedBox(
+                                  width: screenWidth * 0.8,
+                                  child: ListTile(
+                                    leading: /* CircleAvatar(
+                                        radius: 30.0,
+                                        backgroundColor: Colors.white,
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            "${ServerConfig.server}/talktongue/assets/profile/${postList[index].userId}.png",
+                                           
+                                          ),
+                                        )), */
+                                        Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: postList[index].userId != null
+                                              ? NetworkImage(
+                                                  "${ServerConfig.server}/talktongue/assets/profile/${postList[index].userId}.png",
+                                                )
+                                              : const Icon(Icons.error)
+                                                  as ImageProvider,
+                                          fit: BoxFit.cover,
+                                          onError: (error, stackTrace) {
+                                            print(
+                                                "Error loading image: $error");
+                                          },
                                         ),
-                                      )), */
-                                      Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: postList[index].userId != null
-                                            ? NetworkImage(
-                                                "${ServerConfig.server}/talktongue/assets/profile/${postList[index].userId}.png",
-                                              )
-                                            : const Icon(Icons.error)
-                                                as ImageProvider,
-                                        fit: BoxFit.cover,
-                                        onError: (error, stackTrace) {
-                                          print("Error loading image: $error");
-                                        },
                                       ),
                                     ),
-                                  ),
-                                  title: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      /* Text(truncateString(
-                                          userlist[index].username.toString())), */
-                                      Text(truncateString(
-                                          postList[index].username.toString())),
-                                      Text(
-                                        df.format(DateTime.parse(postList[index]
-                                            .postDate
+                                    title: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        /* Text(truncateString(
+                                            userlist[index].username.toString())), */
+                                        Text(truncateString(postList[index]
+                                            .username
                                             .toString())),
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black38),
-                                      )
-                                    ],
+                                        Text(
+                                          df.format(DateTime.parse(
+                                              postList[index]
+                                                  .postDate
+                                                  .toString())),
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black38),
+                                        )
+                                      ],
+                                    ),
+                                    subtitle: Text(truncateString(
+                                        postList[index].postDeets.toString())),
+
+                                    isThreeLine: true,
+                                    //dense: true,
+                                    onTap: () async {
+                                      // Post post =Post.fromJson(postList[index].toJson());
+                                    },
                                   ),
-                                  subtitle: Text(truncateString(
-                                      postList[index].postDeets.toString())),
-
-                                  isThreeLine: true,
-                                  //dense: true,
-                                  onTap: () async {
-                                    // Post post =Post.fromJson(postList[index].toJson());
-                                  },
                                 ),
-                              ),
-                            );
+                              );
 
-                            /* return ListTile(
-                                          title: Text(truncateString(
-                                              postList[index].postDeets.toString())), */
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                                /* thickness: 2,
-                                    height: 20, */
-                                );
-                          },
-                        ),
-                ),
-                SizedBox(
-                  height: screenHeight * 0.05,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: numofpage,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      //build the list for textbutton with scroll
-                      if ((curpage - 1) == index) {
-                        //set current page number active
-                        color = Colors.red;
-                      } else {
-                        color = Colors.black;
-                      }
-                      return TextButton(
-                          onPressed: () {
-                            curpage = index + 1;
-                            loadPost(deets);
-                          },
-                          child: Text(
-                            (index + 1).toString(),
-                            style: TextStyle(color: color, fontSize: 18),
-                          ));
-                    },
+                              /* return ListTile(
+                                            title: Text(truncateString(
+                                                postList[index].postDeets.toString())), */
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider(
+                                  /* thickness: 2,
+                                      height: 20, */
+                                  );
+                            },
+                          ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: screenHeight * 0.05,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: numofpage,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        //build the list for textbutton with scroll
+                        if ((curpage - 1) == index) {
+                          //set current page number active
+                          color = Colors.red;
+                        } else {
+                          color = Colors.black;
+                        }
+                        return TextButton(
+                            onPressed: () {
+                              curpage = index + 1;
+                              loadPost(deets);
+                            },
+                            child: Text(
+                              (index + 1).toString(),
+                              style: TextStyle(color: color, fontSize: 18),
+                            ));
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ));
@@ -247,6 +261,7 @@ class _MomentState extends State<Moment> {
                 builder: (content) => Mymoments(
                       userdata: widget.userdata,
                       post: widget.post,
+                      setting: widget.setting,
                     )));
         break;
       case 1:

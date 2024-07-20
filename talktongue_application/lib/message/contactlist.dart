@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:talktongue_application/message/chatlist.dart';
 import 'package:talktongue_application/message/chatpage.dart';
 import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
 //import 'package:talktongue_application/view/main.dart';
@@ -11,9 +12,13 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 class ContactListPage extends StatefulWidget {
   final User currentUser;
   final Post post;
+  final Setting setting;
 
   const ContactListPage(
-      {super.key, required this.currentUser, required this.post});
+      {super.key,
+      required this.currentUser,
+      required this.post,
+      required this.setting});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -62,6 +67,7 @@ class _ContactListPageState extends State<ContactListPage> {
                     builder: (content) => ChatListPage(
                           currentUser: widget.currentUser,
                           post: widget.post,
+                          setting: widget.setting,
                         )));
           },
         ),

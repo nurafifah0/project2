@@ -58,11 +58,11 @@ class _LearningResourcesState extends State<LearningResources> {
             ),
           ], */
         ),
-        drawer: MyDrawer(
+        /*  drawer: MyDrawer(
           page: "learning",
           userdata: widget.userdata,
           post: widget.post,
-        ),
+        ), */
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: SingleChildScrollView(
           child: Center(

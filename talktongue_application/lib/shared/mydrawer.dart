@@ -4,6 +4,7 @@ import 'package:talktongue_application/findfriends/find.dart';
 import 'package:talktongue_application/learning/learns.dart';
 import 'package:talktongue_application/message/chatlist.dart';
 import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/moment/moment.dart';
 import 'package:talktongue_application/shared/EnterExitRoute.dart';
@@ -14,12 +15,14 @@ class MyDrawer extends StatefulWidget {
   final String page;
   final User userdata;
   final Post post;
+  final Setting setting;
 
   const MyDrawer(
       {super.key,
       required this.page,
       required this.userdata,
-      required this.post});
+      required this.post,
+      required this.setting});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -110,6 +113,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (content) => Moment(
                                     userdata: widget.userdata,
                                     post: widget.post,
+                                    setting: widget.setting,
                                   )));
 
                       print(widget.page.toString());
@@ -124,10 +128,12 @@ class _MyDrawerState extends State<MyDrawer> {
                               exitPage: Moment(
                                 userdata: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               ),
                               enterPage: Moment(
                                 userdata: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               )));
                     },
                   ),
@@ -152,6 +158,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (content) => ChatListPage(
                                     currentUser: widget.userdata,
                                     post: widget.post,
+                                    setting: widget.setting,
                                   )));
                       Navigator.push(
                           context,
@@ -159,10 +166,12 @@ class _MyDrawerState extends State<MyDrawer> {
                               exitPage: ChatListPage(
                                 currentUser: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               ),
                               enterPage: ChatListPage(
                                 currentUser: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               )));
                     },
                   ),
@@ -186,6 +195,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (content) => FindFriends(
                                     userdata: widget.userdata,
                                     post: widget.post,
+                                    setting: widget.setting,
                                   )));
                       Navigator.push(
                           context,
@@ -193,10 +203,12 @@ class _MyDrawerState extends State<MyDrawer> {
                               exitPage: FindFriends(
                                 userdata: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               ),
                               enterPage: FindFriends(
                                 userdata: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               )));
                     },
                   ),
@@ -222,6 +234,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (content) => Learnings(
                                     userdata: widget.userdata,
                                     post: widget.post,
+                                    setting: widget.setting,
                                   )));
                       Navigator.push(
                           context,
@@ -229,10 +242,12 @@ class _MyDrawerState extends State<MyDrawer> {
                               exitPage: Learnings(
                                 userdata: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               ),
                               enterPage: Learnings(
                                 userdata: widget.userdata,
                                 post: widget.post,
+                                setting: widget.setting,
                               )));
                     },
                   ),
@@ -260,7 +275,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               builder: (content) => AccountSetting(
                                     userdata: widget.userdata,
                                     //user: widget.userdata,
-                                    post: widget.post,
+                                    post: widget.post, setting: widget.setting,
                                   )));
                       Navigator.push(
                           context,
@@ -268,12 +283,12 @@ class _MyDrawerState extends State<MyDrawer> {
                               exitPage: AccountSetting(
                                 userdata: widget.userdata,
                                 // user: widget.userdata,
-                                post: widget.post,
+                                post: widget.post, setting: widget.setting,
                               ),
                               enterPage: AccountSetting(
                                 userdata: widget.userdata,
                                 // user: widget.userdata,
-                                post: widget.post,
+                                post: widget.post, setting: widget.setting,
                               )));
                     },
                   ),

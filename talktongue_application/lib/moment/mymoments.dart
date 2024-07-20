@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/moment/moment.dart';
@@ -15,7 +16,12 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 class Mymoments extends StatefulWidget {
   final User userdata;
   final Post post;
-  const Mymoments({super.key, required this.userdata, required this.post});
+  final Setting setting;
+  const Mymoments(
+      {super.key,
+      required this.userdata,
+      required this.post,
+      required this.setting});
 
   @override
   State<Mymoments> createState() => _MymomentsState();
@@ -88,6 +94,7 @@ class _MymomentsState extends State<Mymoments> {
                       builder: (content) => Moment(
                             userdata: widget.userdata,
                             post: widget.post,
+                            setting: widget.setting,
                           )));
             },
           ),
@@ -448,6 +455,7 @@ class _MymomentsState extends State<Mymoments> {
                   builder: (content) => Mymoments(
                         userdata: widget.userdata,
                         post: widget.post,
+                        setting: widget.setting,
                       )));
         } else {
           /*  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -522,6 +530,7 @@ class _MymomentsState extends State<Mymoments> {
                   builder: (content) => Mymoments(
                         userdata: widget.userdata,
                         post: widget.post,
+                        setting: widget.setting,
                       )));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

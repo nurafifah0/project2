@@ -5,7 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talktongue_application/message/chatlist.dart';
-
+import 'package:talktongue_application/models/setting.dart';
+//import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -244,6 +245,7 @@ class _LoginPageState extends State<LoginPage> {
         if (data['status'] == "success") {
           User user = User.fromJson(data['data']);
           Post post = Post.fromJson(data['data']);
+          Setting setting = Setting.fromJson(data['data']);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Success"),
             backgroundColor: Colors.green,
@@ -254,6 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                   builder: (content) => ChatListPage(
                         currentUser: user,
                         post: post,
+                        setting: setting,
                       )));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

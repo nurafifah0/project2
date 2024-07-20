@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:talktongue_application/models/post.dart';
 import 'package:talktongue_application/models/user.dart';
@@ -7,9 +8,14 @@ import 'package:talktongue_application/shared/mydrawer.dart';
 //void main() => runApp(const AccountSetting());
 
 class Learnings extends StatefulWidget {
-  const Learnings({super.key, required this.userdata, required this.post});
+  const Learnings(
+      {super.key,
+      required this.userdata,
+      required this.post,
+      required this.setting});
   final User userdata;
   final Post post;
+  final Setting setting;
 
   @override
   State<Learnings> createState() => _LearningsState();
@@ -76,6 +82,7 @@ class _LearningsState extends State<Learnings> {
           page: "learning",
           userdata: widget.userdata,
           post: widget.post,
+          setting: widget.setting,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: SingleChildScrollView(

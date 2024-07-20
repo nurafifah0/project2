@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:talktongue_application/message/chatpage.dart';
 import 'package:talktongue_application/message/contactlist.dart';
 import 'package:talktongue_application/models/post.dart';
+import 'package:talktongue_application/models/setting.dart';
 import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/mydrawer.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
@@ -11,8 +12,13 @@ import 'package:talktongue_application/shared/serverconfig.dart';
 class ChatListPage extends StatefulWidget {
   final User currentUser;
   final Post post;
+  final Setting setting;
 
-  const ChatListPage({super.key, required this.currentUser, required this.post});
+  const ChatListPage(
+      {super.key,
+      required this.currentUser,
+      required this.post,
+      required this.setting});
 
   @override
   State<ChatListPage> createState() => _ChatListPageState();
@@ -108,6 +114,7 @@ class _ChatListPageState extends State<ChatListPage> {
           page: "chat",
           userdata: widget.currentUser,
           post: widget.post,
+          setting: widget.setting,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
         body: RefreshIndicator(
@@ -196,6 +203,7 @@ class _ChatListPageState extends State<ChatListPage> {
                     builder: (content) => ContactListPage(
                           currentUser: widget.currentUser,
                           post: widget.post,
+                          setting: widget.setting,
                         ))).then((_) => loadChatUsers());
           },
           tooltip: 'Add',
