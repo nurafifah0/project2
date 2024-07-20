@@ -83,6 +83,90 @@ if (isset($_POST['newaddr'])) {
     die();
 }
 
+/* if (!isset($_POST['userid']) && !isset($_POST['newage']) && !isset($_POST['status1']) && !isset($_POST['status2']) && !isset($_POST['status3'])) {
+    $age = $_POST['newage'];
+    $nativelang = $_POST['status1'];
+    $learninglang = $_POST['status2'];
+    $fluencylang = $_POST['status3'];
+    $userid = $_POST['userid'];
+    include_once("dbconnect.php");
+    $sqlinsert = "INSERT INTO `tbl_accsetting` (`user_id`, `user_age`,`user_nativelang`, `user_learninglang`,`user_fluency` ) VALUES ('$userid','$age','$nativelang', '$learninglang','$fluencylang')";
+    if ($conn->query($sqlinsert) === TRUE) {
+        $response = array('status' => 'success', 'data' => null);
+        sendJsonResponse($response);
+    }else{
+        $response = array('status' => 'failed', 'data' => null);
+        sendJsonResponse($response);
+    }
+} */
+
+if (!isset($_POST['userid']) && !isset($_POST['newage']) ) {
+    include_once("dbconnect.php");
+
+    $age = $_POST['newage'];
+    $userid = $_POST['userid'];
+    
+    $sqlupdate = "UPDATE tbl_accsetting SET user_age='$age' WHERE user_id='$userid'";
+    if ($conn->query($sqlupdate) === TRUE) {
+        $response = array('status' => 'success', 'data' => null);
+        sendJsonResponse($response);
+    } else {
+        $response = array('status' => 'failed', 'data' => null);
+        sendJsonResponse($response);
+    }
+
+}
+
+/* if (isset($_POST['newage'])) {
+    $age = $_POST['newage'];
+    $userid = $_POST['userid'];
+    $sqlupdate = "UPDATE tbl_accsetting SET user_age ='$age' WHERE user_id = '$userid'";
+    databaseUpdate($sqlupdate);
+    die();
+} */
+
+if (isset($_POST['status1'])) {
+    $nativelang = $_POST['status1'];
+    $userid = $_POST['userid'];
+    $sqlupdate = "UPDATE tbl_accsetting SET user_nativelang ='$nativelang' WHERE user_id = '$userid'";
+    databaseUpdate($sqlupdate);
+    die();
+}
+
+if (isset($_POST['status2'])) {
+    $learninglang = $_POST['status2'];
+    $userid = $_POST['userid'];
+    $sqlupdate = "UPDATE tbl_accsetting SET user_learninglang ='$learninglang' WHERE user_id = '$userid'";
+    databaseUpdate($sqlupdate);
+    die();
+}
+
+if (isset($_POST['status3'])) {
+    $fluencylang = $_POST['status3'];
+    $userid = $_POST['userid'];
+    $sqlupdate = "UPDATE tbl_accsetting SET user_fluency ='$fluencylang' WHERE user_id = '$userid'";
+    databaseUpdate($sqlupdate);
+    die();
+}
+
+/* if (isset($_POST['newaddr'])) {
+    $userid = $_POST['userid'];
+    $age = $_POST['age'];
+    $status1 = $_POST['status1'];
+    $status2 = $_POST['status2'];
+    $status3 = $_POST['status3'];
+    $sqlinsert = "INSERT INTO `tbl_books`(`user_id`, `user_age`, `user_nativelang`, `user_learninglang`, `user_fluency`) 
+VALUES ('$userid','age','$status1','$status2','$status3')";
+if ($conn->query($sqlinsert) === TRUE) {
+    
+	$response = array('status' => 'success', 'data' => $sqlinsert);
+    sendJsonResponse($response);
+}else{
+	$response = array('status' => 'failed', 'data' => $sqlinsert);
+	sendJsonResponse($response);
+}
+    
+} */
 
 function databaseUpdate($sql){
     include_once("dbconnect.php");
