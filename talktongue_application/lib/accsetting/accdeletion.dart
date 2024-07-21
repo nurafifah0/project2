@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:talktongue_application/models/user.dart';
 import 'package:talktongue_application/shared/serverconfig.dart';
+import 'package:talktongue_application/view/login.dart';
 
 class AccountDeletion extends StatefulWidget {
-  final String userid;
+  // final String userid;
+  final User userdata;
 
-  const AccountDeletion({super.key, required this.userid});
+  const AccountDeletion(
+      {super.key, /* required this.userid, */ required this.userdata});
 
   @override
   State<AccountDeletion> createState() => _AccountDeletionState();
@@ -82,7 +86,8 @@ class _AccountDeletionState extends State<AccountDeletion> {
   }
 
   Future<void> _deleteAccount() async {
-    String userid = widget.userid;
+    // String userid = widget.userid;
+    String userid = widget.userdata.userid.toString();
 
     var url =
         Uri.parse("${ServerConfig.server}/talktongue/php/delete_account.php");
@@ -93,14 +98,24 @@ class _AccountDeletionState extends State<AccountDeletion> {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['status'] == 'success') {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Account deleted successfully"),
-            backgroundColor: Color.fromARGB(255, 23, 225, 202),
+            backgroundColor: Colors.green,
           ),
         );
         // Navigate to another screen if needed
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (content) => const LoginPage(
+
+                    //userid: '',
+                    )));
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content:
@@ -108,8 +123,9 @@ class _AccountDeletionState extends State<AccountDeletion> {
         );
       }
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error deleting account")),
+        const SnackBar(content: Text("Error deleting account")),
       );
     }
   }

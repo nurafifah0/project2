@@ -486,7 +486,8 @@ class _AccountSettingState extends State<AccountSetting> {
                         context,
                         MaterialPageRoute(
                             builder: (content) => AccountDeletion(
-                                  userid: '',
+                                  userdata: widget.userdata,
+                                  //userid: '',
                                 )));
                   },
                   icon: const Icon(Icons.arrow_forward_ios_rounded),
