@@ -44,24 +44,20 @@ class _AccountSettingState extends State<AccountSetting> {
   final df = DateFormat('dd/MM/yyyy');
   var val = 50;
 
-  String dropdownvalue1 = 'None';
-  var types1 = [
+  String nativeLanguage = 'None';
+
+  var languages = [
     'None',
     'English',
     'Spanish',
     'Malay',
   ];
 
-  String dropdownvalue2 = 'None';
-  var types2 = [
-    'None',
-    'English',
-    'Spanish',
-    'Malay',
-  ];
+  String learningLanguage = 'None';
 
-  String dropdownvalue3 = 'None';
-  var types3 = [
+  String langLevel = 'None';
+
+  var levels = [
     'None',
     'Beginner',
     'Intermediate',
@@ -80,19 +76,24 @@ class _AccountSettingState extends State<AccountSetting> {
   @override
   void initState() {
     super.initState();
-    if (widget.userdata.userid == "0") {
-      isDisable = true;
-    } else {
-      isDisable = false;
-    }
 
-    _nameController.text = widget.userdata.username.toString();
-    _ageController.text = widget.setting.userage.toString();
-    dropdownvalue1 = widget.setting.usernativelang.toString();
-    dropdownvalue2 = widget.setting.userlearninglang.toString();
-    dropdownvalue3 = widget.setting.userfluency.toString();
-    //_phoneController.text = widget.userdata.userphone.toString();
-    //_newaddressController.text = widget.userdata.useraddress.toString();
+    // Ensure default values are non-null
+    nativeLanguage = (languages.contains(widget.setting.usernativelang)
+        ? widget.setting.usernativelang
+        : 'None')!;
+    learningLanguage = (languages.contains(widget.setting.userlearninglang)
+        ? widget.setting.userlearninglang
+        : 'None')!;
+    langLevel = (levels.contains(widget.setting.userfluency)
+        ? widget.setting.userfluency
+        : 'None')!;
+
+    // Handling user disable state based on userID
+    isDisable = widget.userdata.userid == "0";
+
+    // Set text in controllers safely checking for null
+    _nameController.text = widget.userdata.username ?? 'Not provided';
+    _ageController.text = widget.setting.userage?.toString() ?? 'Not specified';
   }
 
   @override
@@ -136,366 +137,254 @@ class _AccountSettingState extends State<AccountSetting> {
           setting: widget.setting,
         ),
         backgroundColor: const Color.fromARGB(197, 233, 179, 207),
-        body: Center(
-          child: Column(children: [
-            Container(
-              //height: screenHeight * 0.25,
-              padding: const EdgeInsets.all(4),
-              child: Column(children: [
-                GestureDetector(
-                  onTap: () {
-                    showSelectionDialog();
-                  },
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: _image == null
-                                ? NetworkImage(
-                                    // fit: BoxFit.fill,
-                                    "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png")
-                                : FileImage(_image!) as ImageProvider)),
-                  ),
-                ),
-              ]),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 30,
-                ),
-                Text(widget.userdata.username.toString().toUpperCase(),
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center),
-                IconButton(
-                    onPressed: () {
-                      _updateUsernameDialog();
-                    },
-                    icon: const Icon(Icons.edit))
-              ],
-            ),
-            /* const Text("Email : ",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center), */
-            const SizedBox(
-              height: 30,
-            ),
-            Card(
-              color: const Color.fromARGB(255, 146, 169, 181),
-              child: Column(
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(children: [
+              Container(
+                //height: screenHeight * 0.25,
+                padding: const EdgeInsets.all(4),
+                child: Column(children: [
+                  GestureDetector(
+                      onTap: () {
+                        showSelectionDialog();
+                      },
+                      child: ClipOval(
+                        child: Image.network(
+                          _image != null
+                              ? _image!.path
+                              : "${ServerConfig.server}/talktongue/assets/profile/${widget.userdata.userid}.png",
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Image.asset('assets/images/profile.jpg',
+                                width: 150,
+                                height: 150,
+                                fit: BoxFit.cover); // Fallback image
+                          },
+                        ),
+                      )),
+                ]),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      const Text("Age : ",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      Text(widget.setting.userage.toString(),
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            _updateAgeDialog();
-                          },
-                          icon: const Icon(Icons.edit))
-                    ],
+                  const SizedBox(
+                    width: 30,
                   ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      const Text("Native Language : ",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      Text(widget.setting.usernativelang.toString(),
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            _updateNativeLangDialog();
-                          },
-                          icon: const Icon(Icons.edit)),
-                      /* Container(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Icon(Icons.new_label, color: Colors.grey),
-                              Container(
-                                  margin: const EdgeInsets.all(8),
-                                  height: 50,
-                                  width: screenWidth * 0.2,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5.0))),
-                                  child: DropdownButton(
-                                    value: dropdownvalue1,
-                                    underline: const SizedBox(),
-                                    isExpanded: true,
-                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                    items: types1.map((String items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text(items),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      dropdownvalue1 = newValue!;
-
-                                      setState(() {});
-                                    },
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ), */
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      const Text("Learning Language : ",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      Text(widget.setting.userlearninglang.toString(),
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            _updateLearningLangDialog();
-                          },
-                          icon: const Icon(Icons.edit))
-                      /* Container(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Icon(Icons.new_label, color: Colors.grey),
-                              Container(
-                                  margin: const EdgeInsets.all(8),
-                                  height: 50,
-                                  width: screenWidth * 0.2,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5.0))),
-                                  child: DropdownButton(
-                                    value: dropdownvalue2,
-                                    underline: const SizedBox(),
-                                    isExpanded: true,
-                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                    items: types2.map((String items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text(items),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      dropdownvalue2 = newValue!;
-
-                                      setState(() {});
-                                    },
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ), */
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      const Text("Fluency Language : ",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      Text(widget.setting.userfluency.toString(),
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            _updateFluencyLangDialog();
-                          },
-                          icon: const Icon(Icons.edit))
-                      /*  Container(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Icon(Icons.new_label, color: Colors.grey),
-                              Container(
-                                  margin: const EdgeInsets.all(8),
-                                  height: 50,
-                                  width: screenWidth * 0.2,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5.0))),
-                                  child: DropdownButton(
-                                    value: dropdownvalue3,
-                                    underline: const SizedBox(),
-                                    isExpanded: true,
-                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                    items: types3.map((String items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text(items),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      dropdownvalue3 = newValue!;
-
-                                      setState(() {});
-                                    },
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ), */
-                    ],
-                  ),
+                  Text(widget.userdata.username.toString().toUpperCase(),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  IconButton(
+                      onPressed: () {
+                        _updateUsernameDialog();
+                      },
+                      icon: const Icon(Icons.edit))
                 ],
               ),
-            ),
-            /*   Center(
-              child: OutlinedButton(
-                onPressed: () {
-                  //  _update;
-                },
-                child: Text(
-                  "save changes",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                  ),
+              /* const Text("Email : ",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center), */
+              const SizedBox(
+                height: 30,
+              ),
+              Card(
+                color: const Color.fromARGB(255, 146, 169, 181),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text("Age : ",
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        Text(
+                            widget.setting.userage?.toString() ??
+                                'Not specified',
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        /*  SizedBox(
+                          width: 30,
+                        ), */
+                        IconButton(
+                            onPressed: () {
+                              _updateAgeDialog();
+                            },
+                            icon: const Icon(Icons.edit))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text("Native Language : ",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        Text(
+                            widget.setting.usernativelang?.toString() ??
+                                "Not specified",
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        /*  SizedBox(
+                          width: 30,
+                        ), */
+                        IconButton(
+                            onPressed: () {
+                              _updateNativeLangDialog();
+                            },
+                            icon: const Icon(Icons.edit)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text("Learning Language : ",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        Text(
+                            widget.setting.userlearninglang?.toString() ??
+                                "Not specified",
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        /* SizedBox(
+                          width: 30,
+                        ), */
+                        IconButton(
+                            onPressed: () {
+                              _updateLearningLangDialog();
+                            },
+                            icon: const Icon(Icons.edit))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text("Fluency Language : ",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        Text(
+                            widget.setting.userfluency?.toString() ??
+                                "Not specified",
+                            style: const TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center),
+                        /*  SizedBox(
+                          width: 30,
+                        ), */
+                        IconButton(
+                            onPressed: () {
+                              _updateFluencyLangDialog();
+                            },
+                            icon: const Icon(Icons.edit))
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ), */
-            const SizedBox(
-              height: 100,
-            ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text("change email ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center),
-                const Text(""),
-                const SizedBox(
-                  width: 50,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (content) => EmailChange(
-                                  userdata: widget.userdata,
-                                )));
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios_rounded),
-                  alignment: Alignment.centerRight,
-                )
-              ],
-            ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text("change password ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center),
-                const Text(""),
-                const SizedBox(
-                  width: 50,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (content) => PassChange(
-                                  userdata: widget.userdata,
-                                )));
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios_rounded),
-                  alignment: Alignment.centerRight,
-                )
-              ],
-            ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text("Account Deletion ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center),
-                const Text(""),
-                const SizedBox(
-                  width: 140,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (content) => AccountDeletion(
-                                  userdata: widget.userdata,
-                                  //userid: '',
-                                )));
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios_rounded),
-                  alignment: Alignment.centerRight,
-                )
-              ],
-            ),
-          ]),
+              const SizedBox(
+                height: 100,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text("change email ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  const Text(""),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (content) => EmailChange(
+                                    userdata: widget.userdata,
+                                  )));
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios_rounded),
+                    alignment: Alignment.centerRight,
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text("change password ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  const Text(""),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (content) => PassChange(
+                                    userdata: widget.userdata,
+                                  )));
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios_rounded),
+                    alignment: Alignment.centerRight,
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text("Account Deletion ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center),
+                  const Text(""),
+                  const SizedBox(
+                    width: 140,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (content) => AccountDeletion(
+                                    userdata: widget.userdata,
+                                    //userid: '',
+                                  )));
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios_rounded),
+                    alignment: Alignment.centerRight,
+                  )
+                ],
+              ),
+            ]),
+          ),
         ));
   }
 
@@ -640,18 +529,20 @@ class _AccountSettingState extends State<AccountSetting> {
             "Change age?",
             style: TextStyle(),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: _ageController,
-                keyboardType: const TextInputType.numberWithOptions(),
-                decoration: InputDecoration(
-                    labelText: 'Age',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-              ),
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _ageController,
+                  keyboardType: const TextInputType.numberWithOptions(),
+                  decoration: InputDecoration(
+                      labelText: 'Age',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -686,8 +577,9 @@ class _AccountSettingState extends State<AccountSetting> {
         body: {
           "userid": widget.userdata.userid.toString(),
           "newage": newage,
-          // "newname": newname,
         }).then((response) {
+      print('HTTP status: ${response.statusCode}');
+      print('HTTP response body: ${response.body}');
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
@@ -706,6 +598,9 @@ class _AccountSettingState extends State<AccountSetting> {
             backgroundColor: Colors.red,
           ));
         }
+      } else {
+        print(
+            'Failed to update age. Status code: ${response.statusCode}. Response body: ${response.body}');
       }
     });
   }
@@ -730,31 +625,35 @@ class _AccountSettingState extends State<AccountSetting> {
                 children: [
                   const Icon(Icons.new_label, color: Colors.grey),
                   Container(
-                      margin: const EdgeInsets.all(8),
-                      height: 50,
-                      width: screenWidth * 0.2,
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5.0))),
-                      child: DropdownButton(
-                        value: dropdownvalue1,
-                        underline: const SizedBox(),
-                        isExpanded: true,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        items: types1.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          dropdownvalue1 = newValue!;
-
-                          setState(() {});
-                        },
-                      )),
+                    margin: const EdgeInsets.all(8),
+                    height: 50,
+                    width: screenWidth * 0.2,
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0))),
+                    child: DropdownButton<String>(
+                      value: nativeLanguage,
+                      underline: const SizedBox(),
+                      isExpanded: true,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: languages
+                          .map<DropdownMenuItem<String>>((String items) {
+                        return DropdownMenuItem<String>(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            nativeLanguage = newValue;
+                          });
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -767,7 +666,7 @@ class _AccountSettingState extends State<AccountSetting> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                String status1 = dropdownvalue1;
+                String status1 = nativeLanguage;
                 _updatenative(status1);
               },
             ),
@@ -787,7 +686,7 @@ class _AccountSettingState extends State<AccountSetting> {
   }
 
   void _updatenative(String status1) {
-    String status1 = dropdownvalue1;
+    String status1 = nativeLanguage;
     http.post(
         Uri.parse("${ServerConfig.server}/talktongue/php/update_profile.php"),
         body: {
@@ -846,18 +745,18 @@ class _AccountSettingState extends State<AccountSetting> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(5.0))),
                       child: DropdownButton(
-                        value: dropdownvalue2,
+                        value: learningLanguage,
                         underline: const SizedBox(),
                         isExpanded: true,
                         icon: const Icon(Icons.keyboard_arrow_down),
-                        items: types2.map((String items) {
+                        items: languages.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
-                          dropdownvalue2 = newValue!;
+                          learningLanguage = newValue!;
 
                           setState(() {});
                         },
@@ -874,7 +773,7 @@ class _AccountSettingState extends State<AccountSetting> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                String value2 = dropdownvalue2;
+                String value2 = learningLanguage;
                 _updatelearningLang(value2);
               },
             ),
@@ -894,7 +793,7 @@ class _AccountSettingState extends State<AccountSetting> {
   }
 
   void _updatelearningLang(String value2) {
-    String value2 = dropdownvalue2;
+    String value2 = learningLanguage;
     http.post(
         Uri.parse("${ServerConfig.server}/talktongue/php/update_profile.php"),
         body: {
@@ -953,18 +852,18 @@ class _AccountSettingState extends State<AccountSetting> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(5.0))),
                       child: DropdownButton(
-                        value: dropdownvalue3,
+                        value: langLevel,
                         underline: const SizedBox(),
                         isExpanded: true,
                         icon: const Icon(Icons.keyboard_arrow_down),
-                        items: types3.map((String items) {
+                        items: levels.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Text(items),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
-                          dropdownvalue3 = newValue!;
+                          langLevel = newValue!;
 
                           setState(() {});
                         },
@@ -981,7 +880,7 @@ class _AccountSettingState extends State<AccountSetting> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                String value3 = dropdownvalue3;
+                String value3 = langLevel;
                 _updateFluency(value3);
               },
             ),
@@ -1001,7 +900,7 @@ class _AccountSettingState extends State<AccountSetting> {
   }
 
   void _updateFluency(value3) {
-    String value3 = dropdownvalue3;
+    String value3 = langLevel;
     http.post(
         Uri.parse("${ServerConfig.server}/talktongue/php/update_profile.php"),
         body: {
